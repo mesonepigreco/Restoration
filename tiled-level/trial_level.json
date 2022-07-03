@@ -1,0 +1,134 @@
+{ "compressionlevel":-1,
+ "height":8,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+         "height":8,
+         "id":1,
+         "name":"Background",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 2, 0, 0, 0,
+            0, 0, 0, 2, 0, 0, 0, 2, 0, 0,
+            0, 2, 0, 0, 0, 2, 0, 0, 0, 0,
+            0, 0, 2, 0, 2, 0, 0, 0, 0, 0,
+            0, 0, 2, 0, 0, 0, 0, 2, 0, 0,
+            2, 0, 0, 0, 0, 0, 2, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":8,
+         "id":2,
+         "name":"Objects",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":3,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.9.0",
+ "tileheight":32,
+ "tilesets":[
+        {
+         "columns":0,
+         "firstgid":1,
+         "grid":
+            {
+             "height":1,
+             "orientation":"orthogonal",
+             "width":1
+            },
+         "margin":0,
+         "name":"grass",
+         "spacing":0,
+         "tilecount":1,
+         "tileheight":32,
+         "tiles":[
+                {
+                 "id":0,
+                 "image":"grass.png",
+                 "imageheight":32,
+                 "imagewidth":32
+                }],
+         "tilewidth":32
+        }, 
+        {
+         "columns":0,
+         "firstgid":2,
+         "grid":
+            {
+             "height":1,
+             "orientation":"orthogonal",
+             "width":1
+            },
+         "margin":0,
+         "name":"Objects",
+         "spacing":0,
+         "tilecount":1,
+         "tileheight":64,
+         "tiles":[
+                {
+                 "id":0,
+                 "image":"tree.png",
+                 "imageheight":64,
+                 "imagewidth":32,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":3,
+                     "name":"",
+                     "objects":[
+                            {
+                             "class":"collision",
+                             "height":26.3004065487309,
+                             "id":4,
+                             "name":"",
+                             "rotation":0,
+                             "visible":false,
+                             "width":15.6817932095374,
+                             "x":9.56378419953851,
+                             "y":37.6925612570047
+                            }, 
+                            {
+                             "class":"collision",
+                             "height":25.125,
+                             "id":5,
+                             "name":"",
+                             "rotation":0,
+                             "visible":true,
+                             "width":11.625,
+                             "x":11.375,
+                             "y":39
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    }
+                }],
+         "tilewidth":32
+        }],
+ "tilewidth":32,
+ "type":"map",
+ "version":"1.9",
+ "width":10
+}
