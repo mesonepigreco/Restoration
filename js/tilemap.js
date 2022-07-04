@@ -1,5 +1,6 @@
 import { Sprite } from "./sprite.js";
 import {File} from "./filesystem.js"
+import { Rect } from "./rect.js";
 
 export class TileMap {
     constructor(json_url, background_group, visible_group, obstacle_group) {
@@ -37,7 +38,8 @@ export class TileMap {
                 let tile = new MapTile(this.base_url + "/" + tset.tiles[j].image, 
                     tset.tiles[j].id + start_id,
                     tset.tiles[j].imagewidth,
-                    tset.tiles[j].imageheight);
+                    tset.tiles[j].imageheight,
+                    tset.tiles[j]);
                 
                 // TODO: Add here the colliers of the object
                 this.tileset.push(tile);
@@ -59,11 +61,15 @@ export class TileMap {
                     let tile_sprite = tile.generate_sprite(x, y, "map");
                     if (layer.name.toLowerCase() === "background")
                         this.background_group.add(tile_sprite);
-                    else
+                    else {
                         this.visible_group.add(tile_sprite);
 
-                        
-                    // TODO: add here the collisions
+                        // Check if the tile has any collider, and add the rect colliders
+                        if (tile.colliders.length !== 0) {
+                            this.obstacle_group.add(tile_sprite);
+                        }
+
+                    }
                 }
             }
         }
@@ -89,7 +95,7 @@ function get_basename(url) {
 }
 
 export class MapTile {
-    constructor(img_src, reference_id, width, height) {
+    constructor(img_src, reference_id, width, height, total_info) {
 
         // Load the image
         this.loaded = false;
@@ -101,11 +107,27 @@ export class MapTile {
             self.loaded = true;
         }, false);
         this.reference_id = reference_id
+
+        // Load eventual colliders
+        this.colliders = [];
+        if ("objectgroup" in total_info) {
+            for (var i = 0; i < total_info.objectgroup.objects.length; ++i) {
+                let obj =  total_info.objectgroup.objects[i];
+                if (obj.class.toLowerCase() === "collision") {
+                    let rect = new Rect(Math.floor(obj.width), Math.floor(obj.height));
+                    rect.x = Math.floor(obj.x);
+                    rect.y =  Math.floor(obj.y);
+                    this.colliders.push(rect);
+                    console.log("ADDING COLLIDER:", rect);
+                }
+            }
+        }
     }
 
     generate_sprite(x, y, kind) {
         let sprite = new Sprite(x, y, kind);
         sprite.image = this.image;
+        sprite.colliders = this.colliders;
         return sprite;
     }
 }

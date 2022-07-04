@@ -1,3 +1,4 @@
+import { Camera } from "./camera.js";
 import { Group, YSortedGroup } from "./groups.js"
 import { Player } from "./player.js";
 import { Sprite } from "./sprite.js"
@@ -12,15 +13,8 @@ export class World {
         this.canvas = canvas;
         this.context = context;
 
-        this.camera = {
-            x : 0, y : 0
-        };
-        this.camera_velocity = {
-            x : 0, y : 0
-        };
-        this.camera_speed = 4;
-
-        this.player = new Player(100, 100, [], this.collision_group);
+        this.player = new Player(70, 100, [], this.collision_group);
+        this.camera = new Camera(this.player, canvas);
         this.visible_group.add(this.player);
     }
 
@@ -29,16 +23,9 @@ export class World {
         this.visible_group.draw(this.context, this.camera);
     }
 
-    update_camera(dt) {
-        this.camera_velocity.x = this.camera_speed *( (this.player.x - this.canvas.width / 2) - this.camera.x);
-        this.camera_velocity.y = this.camera_speed *((this.player.y - this.canvas.height / 2) - this.camera.y);
-        this.camera.x += this.camera_velocity.x * dt
-        this.camera.y += this.camera_velocity.y * dt
-    }
-
     update(dt) {
         this.visible_group.update(dt);
-        this.update_camera(dt);
+        this.camera.update(dt);
     }
 
     is_loaded() {

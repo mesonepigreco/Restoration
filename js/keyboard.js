@@ -6,7 +6,6 @@ export class Keyboard {
         let self = this;
         document.addEventListener("keydown", (event) => {
             self.keys[event.key] = true;
-            console.log("HAHAH");
 
             if (event.target == document.body) 
                 event.preventDefault();

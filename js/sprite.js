@@ -1,3 +1,4 @@
+import { Rect } from "./rect.js";
 
 export class Sprite {
     constructor(x, y, kind, groups = []) {
@@ -9,6 +10,7 @@ export class Sprite {
         this.flipX = false;
         this.flipY = false;
         this.groups = groups;
+        this.colliders = [];
 
         // Add the sprite to the groups
         for (var i = 0; i < groups.length; ++i) {
@@ -47,7 +49,6 @@ export class Sprite {
             this.animations[list_of_animations[i]] = [];
         }
     }
-
 
     load_frame(waiter_function, src_img, animation) {
         const img = new Image();
@@ -124,14 +125,25 @@ export class Sprite {
         //this.velocity.y += this.gravity * dt;
     }
 
+    get imagerect() {
+        let rect = new Rect(this.image.width, this.image.height);
+        return rect;
+    }
+
     collidewith(sprite) {
         // Return true if there is a collision between this and the other sprite
-        if ((this.x + this.image.width > sprite.x &&
-             this.x < sprite.x + sprite.image.width) && 
-            (this.y + this.image.height > sprite.y &&
-             this.y < sprite.y + sprite.image.height))  
-            return true;
-        return false;
+        const offset = {
+            x : this.x - sprite.x,
+            y : this.y - sprite.y
+        };
+
+        //console.log("Colliders P:", this.colliders, "Colliders X:", sprite.colliders);
+        for (var i = 0; i < this.colliders.length; ++i) {
+            for (var j = 0; j < sprite.colliders.length; ++j) {
+                if (this.colliders[i].colliderect(sprite.colliders[j], offset)) return sprite.colliders[j];
+            }
+        }
+        return null;
     }
 
     draw(context, camera) {
@@ -144,7 +156,7 @@ export class Sprite {
         if (this.flipY) scaley = -1;
         
         context.scale(scalex, scaley);
-        context.drawImage(this.image, Math.floor(this.x - camera.x), Math.floor(this.y - camera.y));
+        context.drawImage(this.image, Math.floor(this.x - camera.x), Math.floor(this.y - camera.y)); // A FLOOR?
         context.restore();
     }
 
