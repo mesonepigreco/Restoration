@@ -2,8 +2,9 @@ import { Sprite} from "./sprite.js";
 import { Keyboard} from "./keyboard.js";
 import {norm} from "./vector_func.js";
 import {draw_color_circle} from "./color_effects.js";
+import {Character} from "./character.js"
 
-export class Player extends Sprite {
+export class Player extends Character {
     constructor(x, y, groups, collision_group) {
         super(x, y, groups);
 

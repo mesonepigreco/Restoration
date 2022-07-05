@@ -42,6 +42,14 @@ export class Sprite {
         }
     }
 
+    paste_animation(other_sprite) {
+        other_sprite.animations = this.animations;
+        other_sprite.current_animation = this.current_animation;
+        other_sprite.loaded_animations = this.loaded_animations;
+        other_sprite.frame_rate = this.frame_rate;
+        other_sprite.image = this.image;
+    }
+
     set_all_animations(list_of_animations) {
         // Specify the name of all the animations of the sprite
         for (var i = 0; i < list_of_animations.length; ++i) {

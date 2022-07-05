@@ -4,6 +4,7 @@ import { Player } from "./player.js";
 import { Sprite } from "./sprite.js"
 import { TileMap } from "./tilemap.js";
 import { draw_color_circle } from "./color_effects.js";
+import { particle_flow } from "./particles.js";
 export class World {
     constructor(canvas, context) {
         this.background_group = new Group();
@@ -36,6 +37,15 @@ export class World {
     update(dt) {
         this.visible_group.update(dt);
         this.camera.update(dt);
+
+        if (this.player.invisible) {
+            particle_flow(this.player.center, 
+                this.player.particle_speed, 
+                this.player.particle_model, 
+                this.player.particle_period, 
+                dt, 
+                this.visible_group);
+        }
     }
 
     is_loaded() {
