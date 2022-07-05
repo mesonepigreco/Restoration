@@ -3,7 +3,7 @@ import { Group, YSortedGroup } from "./groups.js"
 import { Player } from "./player.js";
 import { Sprite } from "./sprite.js"
 import { TileMap } from "./tilemap.js";
-
+import { draw_color_circle } from "./color_effects.js";
 export class World {
     constructor(canvas, context) {
         this.background_group = new Group();
@@ -21,6 +21,16 @@ export class World {
     draw() {
         this.background_group.draw(this.context, this.camera);
         this.visible_group.draw(this.context, this.camera);
+
+
+        // Draw the color circle
+        const center = this.player.imagerect.center;
+        const position = {
+            x :  this.player.x + center.x - this.camera.x,
+            y :  this.player.y + center.y - this.camera.y
+        };
+
+        draw_color_circle(this.context, this.canvas, position, 60);
     }
 
     update(dt) {
