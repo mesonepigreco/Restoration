@@ -18,4 +18,13 @@ export class Character extends Sprite {
         this.clothes = [];
         this.spells = [];
     }
+
+
+    update(dt) {
+        super.update(dt);
+
+        // Update the armor
+        this.armor = (this.strenght - 12) * 0.2 
+        for (var i = 0; i  < this.clothes.length; ++i) this.armor += this.clothes[i].armor
+    }
 }
