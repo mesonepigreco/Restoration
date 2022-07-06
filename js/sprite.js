@@ -138,6 +138,13 @@ export class Sprite {
         return rect;
     }
 
+    get_global_collider_rect(index) {
+        let rect = this.colliders[index].copy()
+        rect.x += this.x;
+        rect.y += this.y;
+        return rect;
+    }
+
     collidewith(sprite) {
         // Return true if there is a collision between this and the other sprite
         const offset = {

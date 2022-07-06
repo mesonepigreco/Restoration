@@ -72,6 +72,13 @@ export class Rect {
         return this.y;
     }
 
+    copy() {
+        let cp = new Rect(this.width, this.height);
+        cp.x = x;
+        cp.y = y;
+        return cp;
+    }
+
     colliderect(rect, offset = {x: 0, y:0}, left_right = 0) {
         // Return true if there is a collision between this and the other sprite
         //console.log("COLLISION BETWEEN:", this, rect, offset);
