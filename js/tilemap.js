@@ -1,6 +1,8 @@
 import { Sprite } from "./sprite.js";
 import {File} from "./filesystem.js"
 import { Rect } from "./rect.js";
+import { Wolf } from "./enemies.js";
+import { RayCast } from "./raycast.js";
 
 export class TileMap {
     constructor(json_url, background_group, visible_group, obstacle_group) {
@@ -8,6 +10,8 @@ export class TileMap {
         this.background_group = background_group
         this.visible_group = visible_group;
         this.obstacle_group = obstacle_group;
+
+        this.raycast = new RayCast(obstacle_group);
 
         this.total_width = 0;
         this.total_height = 0;
@@ -58,7 +62,7 @@ export class TileMap {
                 if (tile === null) {
                     console.log("ERROR while loading tile: id = ", layer.data[j], " layer ",  i, "position", j);
                 } else if (tile !== 0) {
-                    let tile_sprite = tile.generate_sprite(x, y, "map");
+                    let tile_sprite = tile.generate_sprite(x, y, "map", this.raycast);
                     if (layer.name.toLowerCase() === "background")
                         this.background_group.add(tile_sprite);
                     else {
@@ -108,6 +112,8 @@ export class MapTile {
         }, false);
         this.reference_id = reference_id
 
+        this.custom_type = null;
+
         // Load eventual colliders
         this.colliders = [];
         if ("objectgroup" in total_info) {
@@ -122,9 +128,19 @@ export class MapTile {
                 }
             }
         }
+
+        // Check if it is a wolf
+        if ("class" in total_info) {
+            this.custom_type = total_info.class;
+        }
     }
 
-    generate_sprite(x, y, kind) {
+    generate_sprite(x, y, kind, raycast=null) {
+        if (this.custom_type === "wolf") {
+            let sprite = new Wolf(x, y+16, raycast);
+            return sprite;
+        }
+
         let sprite = new Sprite(x, y, kind);
         sprite.image = this.image;
         sprite.colliders = this.colliders;

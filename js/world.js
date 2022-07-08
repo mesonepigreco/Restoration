@@ -5,6 +5,8 @@ import { Sprite } from "./sprite.js"
 import { TileMap } from "./tilemap.js";
 import { draw_color_circle } from "./color_effects.js";
 import { particle_flow } from "./particles.js";
+import { RayCast } from "./raycast.js";
+
 export class World {
     constructor(canvas, context) {
         this.background_group = new Group();
@@ -13,6 +15,7 @@ export class World {
         this.tilemap = null;
         this.canvas = canvas;
         this.context = context;
+        this.raycast = new RayCast(this.collision_group);
 
         this.player = new Player(70, 100, [], this.collision_group);
         this.camera = new Camera(this.player, canvas);

@@ -22,6 +22,24 @@ export class Wolf extends Character {
         this.angle_start = 0;
         this.angle_end = 0;
         this.spotted = false;
+        this.status = "idle";
+
+        // Assets and animations
+        this.animations = {
+            "idle_down" : [],
+            "idle_up" : [],
+            "idle_left" : [],
+            "idle_right" : [],
+            "run_down" : [],
+            "run_up" : [],
+            "run_left" : [],
+            "run_right" : []
+        }
+        
+        this.load_frame(load, "assets/wolf/back.png", "idle_up");
+        this.load_frame(load, "assets/wolf/front.png", "idle_down");
+        this.load_frame(load, "assets/wolf/right.png", "idle_right");
+        this.load_frame(load, "assets/wolf/left.png", "idle_left");
     }
 
     get_angle() {
