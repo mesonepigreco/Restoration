@@ -6,7 +6,7 @@ import {Character} from "./character.js"
 
 export class Player extends Character {
     constructor(x, y, groups, collision_group) {
-        super(x, y, groups);
+        super(x, y, "player", groups, collision_group);
 
         this.loaded  = 0;
         let self = this;
@@ -39,7 +39,6 @@ export class Player extends Character {
         this.load_animation("fall", "data/miner/fall", 13, 18, 4);*/
 
 
-        this.collision_group = collision_group;
         this.direction = "down";
         this.status = "idle";
         this.speed = 40;
@@ -71,8 +70,6 @@ export class Player extends Character {
 
     update_status() {
         // For now nothing
-
-
         this.current_animation = this.status + "_" + this.direction;
     }
 
@@ -114,59 +111,10 @@ export class Player extends Character {
 
         this.update_controls();
 
-        // Apply the horizontal moovement
-        this.x += this.velocity.x * dt;
-        //this.x = Math.floor(this.x);
-        this.update_collision(true);
-
-        // Apply the vertical moovement
-        this.y += this.velocity.y * dt;
-        //this.y = Math.floor(this.y);
-        this.update_collision(false);
 
 
         // Change the animation to be played
         this.update_status();
     }
 
-    update_collision(left_right = true) {
-        let colliders = this.collision_group.sprites;
-        var is_ground = false;
-        //console.log("Colliders: ", this.collision_group.sprites);
-        for (var i = 0; i < colliders.length; ++i) {
-            let sprite =  colliders[i];
-            let collision = null;
-            collision = this.collidewith(sprite);
-
-            if (collision !== null) {
-
-                // Check for the horizontal direction
-                if (left_right) {
-                    if (this.velocity.x > 0) {
-                        this.x = sprite.x + collision.left - this.colliders[0].right - 1e-8;
-                    } else if (this.velocity.x < 0) {
-                        this.x = sprite.x + collision.right - this.colliders[0].left + 1e-8;
-                    }
-                    this.velocity.x = 0;
-                }
-                else {
-                    // Check for the vertical direction
-                    if (this.velocity.y < 0) {
-                        this.y = sprite.y + collision.bottom - this.colliders[0].top + 1e-8;
-                        is_ground = true;
-                    } else if (this.velocity.y > 0) {
-                        this.y = sprite.y + collision.top - this.colliders[0].bottom - 1e-8;
-                    }
-                    this.velocity.y = 0;
-                }
-            }
-        }
-
-        if (this.is_ground && !is_ground) {
-            this.is_ground = false;
-            this.falling_timer = Date.now();
-        } else {
-            this.is_ground = is_ground;
-        }
-    }
 }

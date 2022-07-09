@@ -9,15 +9,15 @@ export function draw_color_circle(context, canvas, pos, radius) {
 
     gradient.addColorStop(0, "rgba(255, 255, 255, 0)");
     gradient.addColorStop(0.9, "rgba(255,255,255,.8)");
-    gradient.addColorStop(0.95, "rgba(255,255,255,.8)");
-    gradient.addColorStop(1, "rgba(255,255,255,.8)");
+    gradient.addColorStop(0.95, "rgba(255,255,255,1)");
+    gradient.addColorStop(1, "rgba(255,255,255,1)");
 
     context.fillStyle = gradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
 
     // Create a gradient for lighting
-    context.globalCompositeOperation = "lighter";
+    /*context.globalCompositeOperation = "lighter";
     var newgradient = context.createRadialGradient(pos.x, pos.y, 
         radius*.5, pos.x, pos.y, radius*1.5);
 
@@ -27,7 +27,7 @@ export function draw_color_circle(context, canvas, pos, radius) {
     newgradient.addColorStop(1, "rgba(20,20,20,1)");
 
     context.fillStyle = newgradient;
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillRect(0, 0, canvas.width, canvas.height);*/
 
 
     context.restore();

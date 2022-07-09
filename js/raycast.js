@@ -16,15 +16,20 @@ export class RayCast {
 
         if (distance(source, target) > max_dist) return false;
         
-        let angle = Math.atan2(target.y - source.y, target.x - source.x);
+        let angle = Math.atan2(-(target.y - source.y), target.x - source.x);
+
+        console.log("ANGLE:", angle);
+
         if (!((angle >= angle_start && angle <angle_end) || 
             (angle + 2*Math.PI >= angle_start && (angle + 2*Math.PI) < angle_end))) return false;
 
+        console.log("angle good");
         // Iterate over all the colliders to spot a collision
         for (let i = 0; i < this.obstacle_group.length; ++i) {
             let obstacle = this.obstacle_group.sprites[i];
             for (let j = 0; j < obstacle.colliders.length; ++j) {
                 const rect = obstacle.get_global_collider_rect(j);
+
                 
                 if (segment_rect_intersect(source, target, rect)) return false;
             }

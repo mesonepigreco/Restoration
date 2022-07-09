@@ -37,7 +37,19 @@ export class World {
         draw_color_circle(this.context, this.canvas, position, 60);
     }
 
+    update_player_in_enemies() {
+        for (let i = 0; i < this.visible_group.length; ++i) {
+            let sprite = this.visible_group.sprites[i];
+            if (sprite.kind === "enemy") {
+                sprite.target = this.player;
+                sprite.collision_group = this.collision_group;
+            }
+        }
+    }
+
+
     update(dt) {
+        this.update_player_in_enemies();
         this.visible_group.update(dt);
         this.camera.update(dt);
 
@@ -54,6 +66,12 @@ export class World {
     is_loaded() {
         if (!this.tilemap.full_loaded) return false;
         if (!this.player.is_loaded()) return false;
+        
+        // Check that all the sprites have an image
+        for (let i = 0; i < this.visible_group; ++i) {
+            let sprite = this.visible_group.sprites[i];
+            if (!sprite.is_loaded()) return false;
+        }
         return true;
     }
 

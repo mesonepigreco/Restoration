@@ -38,12 +38,6 @@ export class Rect {
         };
     }
 
-    get topright() {
-        return {
-            x: this.x + this.width,
-            y: this.y
-        };
-    }
 
     get midtop() {
         return {
@@ -56,6 +50,23 @@ export class Rect {
         return {
             x: this.x + this.width,
             y : this.y + this.height /2
+        };
+    }
+
+    get topleft() {
+        return {
+            x: this.x, y: this.y
+        };
+    }
+    get topright() {
+        return {
+            x: this.x + this.width, y: this.y
+        };
+    }
+
+    get bottomright() {
+        return {
+            x: this.x + this.width, y: this.y + this.height
         };
     }
 
@@ -74,8 +85,8 @@ export class Rect {
 
     copy() {
         let cp = new Rect(this.width, this.height);
-        cp.x = x;
-        cp.y = y;
+        cp.x = this.x;
+        cp.y = this.y;
         return cp;
     }
 

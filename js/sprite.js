@@ -160,6 +160,11 @@ export class Sprite {
         }
         return null;
     }
+    
+    is_loaded() {
+        if (this.image !== null) return true;
+        return false;
+    }
 
     draw(context, camera) {
         //console.log("Drawing at: " + this.x + " " + this.y + " img: " + this.image + " kind:" + this.kind);
