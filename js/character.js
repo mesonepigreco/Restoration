@@ -1,5 +1,6 @@
 import { Particle, particle_flow } from "./particles.js";
 import { Sprite } from "./sprite.js";
+import { norm } from "./vector_func.js";
 
 export class Character extends Sprite {
     constructor(x, y, kind, groups, collision_group = null) {
@@ -21,13 +22,23 @@ export class Character extends Sprite {
         this.clothes = [];
         this.spells = [];
 
-        this.invisible = true;
+        this.invisible = false;
         this.invulnerable = false;
         this.invisibility_trasparency = .6;
         this.invisibility_period = 700;
         this.invisibility_amplitude = .2;
         this.flicker_period = 180; // ms
         this.particle_speed = 30;
+
+        this.use_acceleration = false;
+        this.viscosity = 3.5;
+        this.acceleration = {x: 0, y: 0};
+        this.friction = 10;
+        this.stun_trigger = -1000;
+        this.stun_timeout = 200;
+
+        this.invunearbility_trigger = -1000;
+        this.invulnerablility_timeout = 2000;
 
 
         this.collision_group = collision_group;
@@ -44,6 +55,10 @@ export class Character extends Sprite {
         return this.intelligence * 10;
     }
 
+    get stunned(){
+        return this.use_acceleration;
+    }
+
     level_up() {
         this.strenght += Math.random();
         this.intelligence += Math.random();
@@ -52,6 +67,47 @@ export class Character extends Sprite {
         this.xp = 0;
     }
 
+    set_invulnerability() {
+        let time = Date.now();
+        this.invulnerable = true;
+        this.invunearbility_trigger = time;
+    }
+
+    update_all_status() {
+        if (this.invulnerable) {
+            if (Date.now() - this.invunearbility_trigger > this.invulnerablility_timeout)
+                this.invulnerable = false;
+        }
+    }
+
+    update_acceleration() {
+        // Setup the viscosity
+        this.acceleration.x = -this.velocity.x * this.viscosity;
+        this.acceleration.y = -this.velocity.y * this.viscosity;
+
+        // Setup the static
+        //this.acceleration.x -= Math.sign(this.velocity.x) * this.friction;
+        //this.acceleration.y -= Math.sign(this.velocity.y) * this.friction;
+
+        console.log("Acceleration:", this.acceleration);
+
+        // Check if deactivate the trigger
+        let time = Date.now();
+        if (time - this.stun_trigger > this.stun_timeout) this.use_acceleration = false;
+    }
+
+    push_back(direction, momentum) {
+        // Push back the character into the desired direction
+        let time = Date.now();
+        this.use_acceleration = true;
+        this.stun_trigger = time;
+
+
+        let nn = norm(direction);
+        this.velocity.x = direction.x * momentum / nn;
+        this.velocity.y = direction.y * momentum / nn;
+        console.log("PUSH BACK: momentum:", momentum, "velocity:", this.velocity);
+    }
 
     update(dt) {
         super.update(dt);
@@ -59,6 +115,15 @@ export class Character extends Sprite {
         // Update the armor
         this.armor = (this.strenght - 12) * 0.2 
         for (var i = 0; i  < this.clothes.length; ++i) this.armor += this.clothes[i].armor;
+
+        // Update velocity
+        if (this.use_acceleration) {
+            this.update_acceleration();
+            this.velocity.x += this.acceleration.x * dt;
+            this.velocity.y += this.acceleration.y * dt;
+        }
+
+        this.update_all_status();
 
         // Apply the horizontal moovement
         this.x += this.velocity.x * dt;

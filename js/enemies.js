@@ -17,7 +17,7 @@ export class Wolf extends Character {
 
         this.attack_rate = 1; // Per second
         this.attack_trigger = -1000;
-        this.attack_range = 10;
+        this.attack_range = 30;
 
         this.spot_trigger = -1000;
         this.spot_countdown = 200;
@@ -105,7 +105,10 @@ export class Wolf extends Character {
                 // TODO: Show the animation of the attack
 
                 // Trigger the attack
-                // TODO: Push back function
+                console.log("ATTACK!");
+                enemy.push_back({x : -this.x + enemy.x, y:-this.y + enemy.y}, 
+                    this.strenght / enemy.strenght * 100);
+                enemy.set_invulnerability();
                 
                 // Compute the damage
                 let damage = this.attack - enemy.armor;
@@ -155,7 +158,8 @@ export class Wolf extends Character {
                 this.move_to(player.center);
                 this.attack(player);
             } else {
-                console.log("WHERE IS HIM?");
+                this.velocity.x = 0;
+                this.velocity.y = 0;
             }
         }
 

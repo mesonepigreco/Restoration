@@ -74,6 +74,9 @@ export class Player extends Character {
     }
 
     update_controls() {
+        // Avoid giving access to controls if the player is stunned
+        if (this.stunned) return;
+
         //console.log(this.keyboard.keys);
         if (this.keyboard.keys["ArrowRight"]) {
             this.velocity.x = this.speed;
@@ -110,8 +113,6 @@ export class Player extends Character {
         super.update(dt);
 
         this.update_controls();
-
-
 
         // Change the animation to be played
         this.update_status();
