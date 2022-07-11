@@ -1,11 +1,11 @@
 import { Camera } from "./camera.js";
 import { Group, YSortedGroup } from "./groups.js"
 import { Player } from "./player.js";
-import { Sprite } from "./sprite.js"
 import { TileMap } from "./tilemap.js";
 import { draw_color_circle } from "./color_effects.js";
 import { particle_flow } from "./particles.js";
 import { RayCast } from "./raycast.js";
+import { UI } from "./ui.js";
 
 export class World {
     constructor(canvas, context) {
@@ -18,6 +18,7 @@ export class World {
         this.raycast = new RayCast(this.collision_group);
 
         this.player = new Player(70, 100, [], this.collision_group);
+        this.ui = new UI(this.player, canvas);
         this.camera = new Camera(this.player, canvas);
         this.visible_group.add(this.player);
     }
@@ -35,6 +36,9 @@ export class World {
         };
 
         draw_color_circle(this.context, this.canvas, position, 60);
+
+        // Draw the UI
+        this.ui.draw(this.context);
     }
 
     update_player_in_enemies() {
