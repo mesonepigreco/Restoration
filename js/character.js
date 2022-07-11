@@ -8,6 +8,7 @@ export class Character extends Sprite {
 
         // Here the stats of the character
         this.hp = 100;
+        this.current_hp = this.hp;
         this.speed = 5;
         this.strenght = 12;
         this.intelligence = 12;

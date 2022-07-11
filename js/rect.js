@@ -110,4 +110,11 @@ export class Rect {
         new_rect.center = this.center;
         return new_rect;
     }
+
+    inflate_absolute(x_offset, y_offset) {
+        /* Generate a new rect centered in the same position but with rescaled dimension */
+        let new_rect = new Rect(this.width + x_offset, this.height + y_offset);
+        new_rect.center = this.center;
+        return new_rect;
+    }
 }

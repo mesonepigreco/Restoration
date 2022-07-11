@@ -112,7 +112,7 @@ export class Wolf extends Character {
                 
                 // Compute the damage
                 let damage = this.attack - enemy.armor;
-                enemy.hp -= damage;
+                enemy.current_hp -= damage;
                 this.attack_trigger = time;
             }
         }
