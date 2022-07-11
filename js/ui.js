@@ -41,6 +41,20 @@ export class UI {
 		let red_rect = this.get_life_rect();
 		context.fillRect(red_rect.x, red_rect.y, red_rect.width, red_rect.height);
 
+		// Add the text of the life
+		// TODO specify the font
+		const text = String(Math.floor(player.current_hp)) + "/" + String(Math.floor(this.player.hp));
+		//const text_size = context.measureText(String(Math.floor(player.current_hp)) + "/" + String(Math.floor(this.player.hp)));
+		const pos = {
+			x : black_rect.right + 20,
+			y : black_rect.top
+		}; 
+		context.fillStyle = "#eee";
+		context.fillText(text, pos.x, pos.y);
+		context.fillStyle = "#000";
+		context.strokeText(text, pos.x, pos.y);
+
+
 		context.restore();
 	}
 
