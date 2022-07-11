@@ -18,12 +18,12 @@ export class RayCast {
         
         let angle = Math.atan2(-(target.y - source.y), target.x - source.x);
 
-        console.log("ANGLE:", angle);
+        //console.log("ANGLE:", angle);
 
         if (!((angle >= angle_start && angle <angle_end) || 
             (angle + 2*Math.PI >= angle_start && (angle + 2*Math.PI) < angle_end))) return false;
 
-        console.log("angle good");
+        //console.log("angle good");
         // Iterate over all the colliders to spot a collision
         for (let i = 0; i < this.obstacle_group.length; ++i) {
             let obstacle = this.obstacle_group.sprites[i];

@@ -7,27 +7,27 @@ export class UI {
 
 		this.rel_life_pos = {
 			x: .2,
-			y: .8
+			y: .9
 		};
-		this.height_ratio = .1;
-		
+		this.height_ratio = .05;
+		this.width_ratio = .4;
     }
 
     get_back_rect() {
-		let back_rect = new Rect(this.canvas.width* (.5 - 2 * this.rel_life_pos.x),
+		let back_rect = new Rect(this.canvas.width* this.width_ratio,
 					this.canvas.height * this.height_ratio);
-		back_rect.x = this.canvas.x * this.rel_life_pos.x;
-		back_rect.y = this.canvas.y * this.rel_life_pos.y;
+		back_rect.x = this.canvas.width * this.rel_life_pos.x;
+		back_rect.y = this.canvas.height * this.rel_life_pos.y;
 		return back_rect.inflate_absolute(20, 20); 
     }
 
     get_life_rect() {
-		let width = this.canvas.width* (.5 - 2 * this.rel_life_pos.x) * this.player.current_hp / this.player.hp;
+		let width = this.canvas.width* this.width_ratio* this.player.current_hp / this.player.hp;
 			
 		let life_rect = new Rect(width,
 					this.canvas.height * this.height_ratio);
-		life_rect.x = this.canvas.x * this.rel_life_pos.x;
-		life_rect.y = this.canvas.y * this.rel_life_pos.y;
+		life_rect.x = this.canvas.width * this.rel_life_pos.x;
+		life_rect.y = this.canvas.height * this.rel_life_pos.y;
 		return life_rect;
     }
 
@@ -43,11 +43,12 @@ export class UI {
 
 		// Add the text of the life
 		// TODO specify the font
-		const text = String(Math.floor(player.current_hp)) + "/" + String(Math.floor(this.player.hp));
-		//const text_size = context.measureText(String(Math.floor(player.current_hp)) + "/" + String(Math.floor(this.player.hp)));
+		const text = "HP: " + String(Math.floor(this.player.current_hp)) + "/" + String(Math.floor(this.player.hp));
+		const text_size = context.measureText(text);
+		const height = text_size.actualBoundingBoxAscent - text_size.actualBoundingBoxDescent;
 		const pos = {
 			x : black_rect.right + 20,
-			y : black_rect.top
+			y : black_rect.top + black_rect.height / 2 + height / 2
 		}; 
 		context.fillStyle = "#eee";
 		context.fillText(text, pos.x, pos.y);

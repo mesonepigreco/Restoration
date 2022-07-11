@@ -100,20 +100,22 @@ export class Wolf extends Character {
 
     attack(enemy) {
         let time = Date.now();
-        if (distance(this.center, enemy.center) < this.attack_range) {
-            if (time - this.attack_trigger > 1000 / this.attack_rate) {
-                // TODO: Show the animation of the attack
+        if (!enemy.invulnerable) {
+            if (distance(this.center, enemy.center) < this.attack_range) {
+                if (time - this.attack_trigger > 1000 / this.attack_rate) {
+                    // TODO: Show the animation of the attack
 
-                // Trigger the attack
-                console.log("ATTACK!");
-                enemy.push_back({x : -this.x + enemy.x, y:-this.y + enemy.y}, 
-                    this.strenght / enemy.strenght * 100);
-                enemy.set_invulnerability();
-                
-                // Compute the damage
-                let damage = this.attack - enemy.armor;
-                enemy.current_hp -= damage;
-                this.attack_trigger = time;
+                    // Trigger the attack
+                    console.log("ATTACK!");
+                    enemy.push_back({x : -this.x + enemy.x, y:-this.y + enemy.y}, 
+                        this.strenght / enemy.strenght * 100);
+                    enemy.set_invulnerability();
+                    
+                    // Compute the damage
+                    let damage = this.strenght - enemy.armor;
+                    enemy.current_hp -= damage;
+                    this.attack_trigger = time;
+                }
             }
         }
     }
