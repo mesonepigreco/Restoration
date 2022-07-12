@@ -174,6 +174,5 @@ export class Wolf extends Character {
 
     draw(context, camera) {
         super.draw(context, camera);
-
     }
 }
