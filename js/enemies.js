@@ -142,6 +142,8 @@ export class Wolf extends Character {
             // Check if the enemy can see the player.
             this.get_angle();
             let visible = this.raycast.project_ray(this.center, player.center, this.fov, this.angle_start, this.angle_end);
+
+            visible = visible && (!(player.invisible || player.invulnerable));
             
             if (visible && !this.spotted) {
                 console.log("Spotted!");

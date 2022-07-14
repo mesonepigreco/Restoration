@@ -65,3 +65,22 @@ export function particle_flow(pos, velocity, particle_model, rate, dt, visible_g
     }
 }
 
+export function particle_burst(pos, velocity, particle_model, n_particles, visible_group) {
+    for (let i = 0; i < n_particles; ++i) {
+        let particle = new Particle(pos.x, pos.y);
+        particle_model.paste_animation(particle);
+
+        // extract the velocity
+        let vel = {
+            x : Math.random()*2 - 1,
+            y : Math.random()*2 - 1
+        };
+        let nn = norm(vel);
+        vel.x *= velocity/nn;
+        vel.y *= velocity/nn;
+
+        particle.velocity = vel;
+        visible_group.add(particle);   
+    }
+}
+

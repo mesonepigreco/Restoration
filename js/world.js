@@ -49,6 +49,9 @@ export class World {
                 sprite.collision_group = this.collision_group;
             }
         }
+
+        // Add also the visible group
+        this.player.visible_group = this.visible_group;
     }
 
 

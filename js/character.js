@@ -14,7 +14,8 @@ export class Character extends Sprite {
         this.intelligence = 12;
         this.armor = 0;
         this.mana = 100;
-
+        this.mana_reovery = 1; // per second
+    
         this.xp = 0;
         
         // Here additional things about the character
@@ -40,6 +41,8 @@ export class Character extends Sprite {
 
         this.invunearbility_trigger = -1000;
         this.invulnerablility_timeout = 2000;
+        this.invisibility_trigger = -1000;
+        this.invisibility_timeout = 6000;
 
 
         this.collision_group = collision_group;
@@ -74,11 +77,28 @@ export class Character extends Sprite {
         this.invunearbility_trigger = time;
     }
 
+    set_invisibility() {
+        let time = Date.now();
+        this.invisible = true;
+        this.invisibility_trigger = time;
+    }
+
     update_all_status() {
         if (this.invulnerable) {
             if (Date.now() - this.invunearbility_trigger > this.invulnerablility_timeout)
                 this.invulnerable = false;
         }
+
+        if (this.invisible) {
+            if (Date.now() - this.invisibility_trigger > this.invisibility_timeout)
+                this.invisible = false;
+        }
+    }
+
+    update_mana(dt) {
+        // Autorecovery
+        this.mana += this.mana_reovery * dt;
+        if (this.mana > this.max_mana) this.mana = this.max_mana;
     }
 
     update_acceleration() {
@@ -125,6 +145,8 @@ export class Character extends Sprite {
         }
 
         this.update_all_status();
+
+        this.update_mana(dt);
 
         // Apply the horizontal moovement
         this.x += this.velocity.x * dt;
