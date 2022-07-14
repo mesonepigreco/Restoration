@@ -53,6 +53,12 @@ export class Character extends Sprite {
         this.particle_model.set_all_animations(["blink"]);
         this.particle_model.load_animation("blink", "assets/blink", 0, 4, 4, ".png");
         this.particle_period = .1;
+
+        this.squish_walk = true;
+        this.squish_squosh_period = 0.27;
+        this.squish_squosh_xamp = 0.08;
+        this.squish_squosh_yamp = 0.1;
+        this.squish_squosh_dephase = Math.PI / 2;
     }
 
     get max_mana() {
@@ -61,6 +67,16 @@ export class Character extends Sprite {
 
     get stunned(){
         return this.use_acceleration;
+    }
+
+    walk_squish() {
+        let time = Date.now() / 1000;
+        if (norm(this.velocity) > 0.1) {
+            let factorx = Math.sin(time * 2 * Math.PI / this.squish_squosh_period);
+            let factory = Math.sin(time * 2 * Math.PI / this.squish_squosh_period + this.squish_squosh_dephase);
+            this.scale_x = 1 + this.squish_squosh_xamp * factorx;
+            this.scale_y = 1 + this.squish_squosh_yamp * factory; 
+        }
     }
 
     level_up() {
@@ -147,6 +163,9 @@ export class Character extends Sprite {
         this.update_all_status();
 
         this.update_mana(dt);
+
+        // Update the walking squish squosh
+        if (this.walk_squish) this.walk_squish();
 
         // Apply the horizontal moovement
         this.x += this.velocity.x * dt;

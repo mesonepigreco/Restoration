@@ -12,6 +12,10 @@ export class Sprite {
         this.groups = groups;
         this.colliders = [];
 
+        // Scaling factor to draw with a squish squosh effect
+        this.scale_x = 1;
+        this.scale_y = 1;
+
         // Add the sprite to the groups
         for (var i = 0; i < groups.length; ++i) {
             let group = groups[i];
@@ -39,6 +43,13 @@ export class Sprite {
         return {
             x : this.x + this.image.width / 2,
             y : this.y + this.image.height / 2
+        }
+    }
+
+    get topright_img() {
+        return {
+            x: this.x - (this.scale_x - 1) * this.image.width/2,
+            y: this.y - (this.scale_y - 1) * this.image.height/2,
         }
     }
 
@@ -174,9 +185,14 @@ export class Sprite {
         var scaley = 1;
         if (this.flipX) scalex = -1;
         if (this.flipY) scaley = -1;
-        
+
+        let draw_pos = {
+            x: this.topright_img.x - camera.x,
+            y : this.topright_img.y - camera.y
+        }
+
         context.scale(scalex, scaley);
-        context.drawImage(this.image, Math.floor(this.x - camera.x), Math.floor(this.y - camera.y)); // A FLOOR?
+        context.drawImage(this.image, Math.floor(draw_pos.x), Math.floor(draw_pos.y), Math.floor(this.image.width * this.scale_x), Math.floor(this.image.height * this.scale_y)); // A FLOOR?
         context.restore();
     }
 

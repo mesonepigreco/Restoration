@@ -66,7 +66,6 @@ export function particle_flow(pos, velocity, particle_model, rate, dt, visible_g
 }
 
 export function particle_burst(pos, velocity, particle_model, n_particles, visible_group) {
-    console.log("BURST:, nparticles:", n_particles, "VG:", visible_group);
     for (let i = 0; i < n_particles; ++i) {
         let particle = new Particle(pos.x, pos.y);
         particle_model.paste_animation(particle);
