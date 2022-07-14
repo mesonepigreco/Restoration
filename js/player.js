@@ -139,7 +139,7 @@ export class Player extends Character {
 
                 if (this.spells[this.selected_spell] === 'heal') {
                     // TODO: Animate heal
-                    particle_burst(this.center, {x:0, y:0}, this.particle_model, 30, this.visible_group);
+                    particle_burst(this.center, 50, this.particle_model, 30, this.visible_group);
 
                     this.current_hp += 10;
                     if (this.current_hp > this.hp) this.current_hp = this.hp;

@@ -121,16 +121,16 @@ export class Wolf extends Character {
     }
 
     update_direction() {
-        if (this.velocity.x > this.velocity.y) {
-            if (this.velocity.x > 0) this.facing_direction = "right";
-            else this.facing_direction = "left";
-        } else {
-            if (this.velocity.y > 0) this.facing_direction = "down";
-            else this.facing_direction = "up"; 
+
+        if (norm(this.velocity) > 0.1) {
+            if (Math.abs(this.velocity.x) > Math.abs(this.velocity.y)) {
+                if (this.velocity.x > 0) this.facing_direction = "right";
+                else this.facing_direction = "left";
+            } else {
+                if (this.velocity.y > 0) this.facing_direction = "down";
+                else this.facing_direction = "up"; 
+            }
         }
-
-        if (norm(this.velocity) > 0.1) console.log("I'm going: ", this.facing_direction);
-
 
         this.current_animation = this.status + "_" + this.facing_direction;
     }
