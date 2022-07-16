@@ -3,7 +3,7 @@ import { Group, YSortedGroup } from "./groups.js"
 import { Player } from "./player.js";
 import { TileMap } from "./tilemap.js";
 import { draw_color_circle } from "./color_effects.js";
-import { particle_flow } from "./particles.js";
+import { Particle, particle_flow } from "./particles.js";
 import { RayCast } from "./raycast.js";
 import { UI } from "./ui.js";
 
@@ -21,6 +21,11 @@ export class World {
         this.ui = new UI(this.player, canvas);
         this.camera = new Camera(this.player, canvas);
         this.visible_group.add(this.player);
+
+        // Load the model of the particles for the blod
+        this.blood_particles = new Particle(0,0);
+        this.blood_particles.set_all_animations(["blood"]);
+        this.blood_particles.load_animation("blood", "assets/blood", 0, 4, 4, ".png");
     }
 
     draw() {
@@ -47,6 +52,9 @@ export class World {
             if (sprite.kind === "enemy") {
                 sprite.target = this.player;
                 sprite.collision_group = this.collision_group;
+
+                sprite.blood_particle_model = this.blood_particles;
+                sprite.visible_group = this.visible_group;
             }
         }
 

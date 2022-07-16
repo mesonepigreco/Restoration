@@ -10,8 +10,8 @@ export class Particle extends Sprite {
         this.total_lifetime = -1;
         this.radius_factor = 20;
 
-        this.start_alpha = 0.7;
-        this.end_alpha = 0;
+        this.start_alpha = 1;
+        this.end_alpha = 0.7;
     }
 
     update(dt) {
@@ -50,6 +50,10 @@ export function particle_flow(pos, velocity, particle_model, rate, dt, visible_g
     for (var i  = 0;  i < n_particles; ++i) {
         let particle = new Particle(pos.x, pos.y);
         particle_model.paste_animation(particle);
+
+        // Add a random size of the sprite
+        particle.scale_x = Math.sqrt(Math.random());
+        particle.scale_y = Math.sqrt(Math.random());
         
         // extract the velocity
         let vel = {
@@ -69,6 +73,11 @@ export function particle_burst(pos, velocity, particle_model, n_particles, visib
     for (let i = 0; i < n_particles; ++i) {
         let particle = new Particle(pos.x, pos.y);
         particle_model.paste_animation(particle);
+
+        // Add a random size of the sprite
+        particle.scale_x = Math.sqrt(Math.random());
+        particle.scale_y = Math.sqrt(Math.random());
+        
 
         // extract the velocity
         let vel = {

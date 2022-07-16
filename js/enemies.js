@@ -1,5 +1,6 @@
 import { Character } from "./character.js";
 import { distance, norm } from "./vector_func.js";
+import { particle_burst } from "./particles.js";
 
 export class Wolf extends Character {
     constructor(x, y, raycast, groups) {
@@ -49,6 +50,10 @@ export class Wolf extends Character {
         this.load_frame(load, "assets/wolf/front.png", "idle_down");
         this.load_frame(load, "assets/wolf/right.png", "idle_right");
         this.load_frame(load, "assets/wolf/left.png", "idle_left");
+
+
+        this.blood_particle_model = null;
+        this.visible_group = null;
     }
 
     is_loaded() {
@@ -110,6 +115,8 @@ export class Wolf extends Character {
                     enemy.push_back({x : -this.x + enemy.x, y:-this.y + enemy.y}, 
                         this.strenght / enemy.strenght * 100);
                     enemy.set_invulnerability();
+                    particle_burst(enemy.center, 30, this.blood_particle_model, 10, this.visible_group);
+
                     
                     // Compute the damage
                     let damage = this.strenght - enemy.armor;
