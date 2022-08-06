@@ -63,6 +63,7 @@
          "tileheight":32,
          "tiles":[
                 {
+                 "class":"grass",
                  "id":0,
                  "image":"grass.png",
                  "imageheight":32,

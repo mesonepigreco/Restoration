@@ -35,6 +35,12 @@ export function scalar_product(v1, v2) {
     return v1.x * v2.x + v1.y * v2.y
 }
 
+function inside_rect(bl, tr, p) {
+    if (p.x > bl.x && p.x < tr.x && p.y > bl.y && p.y < tr.y)
+        return true;
+    return false;
+}
+
 // Check if the segment connecting A, B intersect with the rectangle
 export function segment_rect_intersect(A, B, rect) {
     let rect_edges = [rect.topleft, rect.topright, rect.bottomright, rect.bottomleft];
@@ -45,4 +51,9 @@ export function segment_rect_intersect(A, B, rect) {
         if (segment_intersect(A, B, rect_edges[i], rect_edges[following])) return true;
     }
     return false;
+}
+
+
+export function point_rect_collision(point, rect) {
+    return inside_rect(rect.bottomleft, rect.topright, point);
 }

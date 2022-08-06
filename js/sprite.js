@@ -4,6 +4,8 @@ export class Sprite {
     constructor(x, y, kind, groups = []) {
         this.x = x;
         this.y = y;
+        this.width = null;
+        this.height = null;
         this.kind = kind;
         this.current_frame = 0;
         this.scale_factor = 1;
@@ -27,6 +29,8 @@ export class Sprite {
         this.image = null;
         this.rect = null;
         this.current_animation = null;
+        this.is_spritesheet = false;
+        this.current_spritesheet_index = 0;
         this.loaded_animations = {
         };
         this.loaded = false;
@@ -69,6 +73,12 @@ export class Sprite {
         }
     }
 
+    set_width_height(width, height) {
+        // Necessary for the animation
+        this.width = width;
+        this.height = height;
+    }
+
     load_frame(waiter_function, src_img, animation) {
         const img = new Image();
         img.src = src_img;
@@ -85,6 +95,14 @@ export class Sprite {
         img.addEventListener("load", function() {
             waiter_function();
         }, false);
+    }
+
+    setup_spritesheet_animation(animation_name, indices) {
+        this.is_spritesheet = true;
+        this.animations[animation_name] = indices;
+        if (this.width === null || this.height === null) {
+            console.error("Error, setup a width and height for the spritesheet before initializing the animation.");
+        }
     }
 
     load_animation(animation_name, directory, frame_start, frame_end, zero_pad_lenght, extension = ".png") {
@@ -128,7 +146,11 @@ export class Sprite {
             cf = 0;
             this.current_frame = 0;
         }
-        this.image = anim[cf];
+
+        if (! this.is_spritesheet)
+            this.image = anim[cf];
+        else 
+            this.current_spritesheet_index = anim[cf];
 
         //console.log("Animation:", this.current_animation, "IMG:", this.image);
 
@@ -146,6 +168,13 @@ export class Sprite {
 
     get imagerect() {
         let rect = new Rect(this.image.width, this.image.height);
+        return rect;
+    }
+
+    get_global_imagerect() {
+        let rect = this.imagerect
+        rect.x += this.x;
+        rect.y += this.y;
         return rect;
     }
 
@@ -192,7 +221,16 @@ export class Sprite {
         }
 
         context.scale(scalex, scaley);
-        context.drawImage(this.image, Math.floor(draw_pos.x), Math.floor(draw_pos.y), Math.floor(this.image.width * this.scale_x), Math.floor(this.image.height * this.scale_y)); // A FLOOR?
+        if (!this.is_spritesheet)
+            context.drawImage(this.image, Math.floor(draw_pos.x), Math.floor(draw_pos.y), Math.floor(this.image.width * this.scale_x), Math.floor(this.image.height * this.scale_y)); // A FLOOR?
+        else {
+            // Blit the spritesheet
+            let source_x = this.width * this.current_spritesheet_index;
+            console.log("animation index:", this.current_spritesheet_index);
+            console.log("Current animation:", this.current_animation);
+            console.log("Animations:", this.animations);
+            context.drawImage(this.image, source_x, 0, this.width, this.height, Math.floor(draw_pos.x), Math.floor(draw_pos.y), Math.floor(this.width * this.scale_x), Math.floor(this.height * this.scale_y))
+        }
         context.restore();
     }
 

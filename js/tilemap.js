@@ -3,9 +3,10 @@ import {File} from "./filesystem.js"
 import { Rect } from "./rect.js";
 import { Wolf } from "./enemies.js";
 import { RayCast } from "./raycast.js";
+import { point_rect_collision } from "./vector_func.js";
 
 export class TileMap {
-    constructor(json_url, background_group, visible_group, obstacle_group) {
+    constructor(json_url, background_group, visible_group, obstacle_group, callback) {
 
         this.background_group = background_group
         this.visible_group = visible_group;
@@ -17,6 +18,7 @@ export class TileMap {
         this.total_height = 0;
         this.tilewidth = 0;
         this.full_loaded = false;
+        this.callback = callback;
 
         this.tileset = [];
 
@@ -24,8 +26,17 @@ export class TileMap {
         this.base_url = get_basename(json_url);
     }
 
+    get_background_kind(x, y) {
+        for (let i = 0; i < this.background_group.length; ++i) {
+            let bgsprite = this.background_group.sprites[i];
+            if (point_rect_collision({x:x, y:y}, bgsprite.get_global_imagerect())) {
+                return bgsprite.kind;
+            }
+        }
+        return null;
+    }
+
     init() {
-        console.log("HERE:", this);
         let data =  this.file.data;
         this.total_height = data.height;
         this.total_width = data.width;
@@ -77,6 +88,7 @@ export class TileMap {
                 }
             }
         }
+        this.callback();
         this.full_loaded = true;
     }
 
@@ -140,6 +152,8 @@ export class MapTile {
             let sprite = new Wolf(x, y+16, raycast);
             return sprite;
         }
+
+        if (this.custom_type !== null) kind = this.custom_type;
 
         let sprite = new Sprite(x, y, kind);
         sprite.image = this.image;

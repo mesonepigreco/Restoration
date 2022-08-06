@@ -76,6 +76,9 @@ export class Character extends Sprite {
             let factory = Math.sin(time * 2 * Math.PI / this.squish_squosh_period + this.squish_squosh_dephase);
             this.scale_x = 1 + this.squish_squosh_xamp * factorx;
             this.scale_y = 1 + this.squish_squosh_yamp * factory; 
+        } else {
+            this.scale_x = 1;
+            this.scale_y = 1;
         }
     }
 
