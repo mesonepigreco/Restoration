@@ -72,56 +72,8 @@
          "tilewidth":32
         }, 
         {
-         "columns":0,
          "firstgid":2,
-         "grid":
-            {
-             "height":1,
-             "orientation":"orthogonal",
-             "width":1
-            },
-         "margin":0,
-         "name":"Objects",
-         "spacing":0,
-         "tilecount":2,
-         "tileheight":64,
-         "tiles":[
-                {
-                 "id":0,
-                 "image":"tree.png",
-                 "imageheight":64,
-                 "imagewidth":32,
-                 "objectgroup":
-                    {
-                     "draworder":"index",
-                     "name":"",
-                     "objects":[
-                            {
-                             "class":"collision",
-                             "height":20.0929174788824,
-                             "id":5,
-                             "name":"",
-                             "rotation":0,
-                             "visible":true,
-                             "width":12,
-                             "x":11.1663417803769,
-                             "y":43.7017543859649
-                            }],
-                     "opacity":1,
-                     "type":"objectgroup",
-                     "visible":true,
-                     "x":0,
-                     "y":0
-                    }
-                }, 
-                {
-                 "class":"wolf",
-                 "id":1,
-                 "image":"..\/assets\/wolf\/front.png",
-                 "imageheight":16,
-                 "imagewidth":16
-                }],
-         "tilewidth":32
+         "source":"Objects.tsx"
         }],
  "tilewidth":32,
  "type":"map",
