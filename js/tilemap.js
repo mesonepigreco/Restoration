@@ -78,12 +78,10 @@ export class TileMap {
                         this.background_group.add(tile_sprite);
                     else {
                         this.visible_group.add(tile_sprite);
-
-                        // Check if the tile has any collider, and add the rect colliders
-                        if (tile.colliders.length !== 0) {
-                            this.obstacle_group.add(tile_sprite);
-                        }
-
+                    }
+                    // Check if the tile has any collider, and add the rect colliders
+                    if (tile.colliders.length !== 0) {
+                        this.obstacle_group.add(tile_sprite);
                     }
                 }
             }

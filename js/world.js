@@ -6,7 +6,7 @@ import { draw_color_circle } from "./color_effects.js";
 import { Particle, particle_flow } from "./particles.js";
 import { RayCast } from "./raycast.js";
 import { UI } from "./ui.js";
-import { AnimatedFlower } from "./decorations.js"
+import { AnimatedFlower, AnimatedGrass } from "./decorations.js"
 
 export class World {
     constructor(canvas, context) {
@@ -96,22 +96,29 @@ export class World {
             this.add_flowers_ground.bind(this));
     }
 
-    add_flowers_ground(flower_rate = 0.2) {
+    add_flowers_ground(flower_rate = 0.2, grass_rate = 0.17) {
         // Add some random flower
-        console.log("VG length:", this.background_group.length);
         for (let i = 0; i < this.background_group.length; ++i) {
             // Extract how many flowers
             let bgsprite = this.background_group.sprites[i];
             if (bgsprite.kind == "grass") {
                 let n_flowers = Math.floor( Math.log(Math.random()) / Math.log(flower_rate));
-                console.log("Extracting flowers:", n_flowers);
                 for (let j = 0; j < n_flowers; ++j) {
                     let x_value = bgsprite.x + Math.floor(Math.random() * 28);
                     let y_value = bgsprite.y + Math.floor(Math.random() * 28);
                     let flower = new AnimatedFlower(x_value, y_value);
                     this.visible_group.add(flower);
                 }
+
+                let n_grass = Math.floor( Math.log(Math.random()) / Math.log(grass_rate));
+                for (let j = 0; j < n_grass; ++j) {
+                    let x_value = bgsprite.x + Math.floor(Math.random() * 28);
+                    let y_value = bgsprite.y + Math.floor(Math.random() * 24);
+                    let grass = new AnimatedGrass(x_value, y_value);
+                    this.visible_group.add(grass);
+                }
             }
+
 
         }
     }

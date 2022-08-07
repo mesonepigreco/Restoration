@@ -79,7 +79,7 @@ export class Player extends Character {
 
     setup_collider() {
         if (this.image !== null) {
-            let collider = this.imagerect.inflate(0.8, 0.5);
+            let collider = this.imagerect.inflate(0.6, 0.4);
             collider.midbottom = this.imagerect.midbottom;
             this.colliders = [collider];
         }

@@ -111,7 +111,6 @@ export class Sprite {
         var loaded = 0;
         function loader_function() {
             loaded ++;
-            console.log("anim load: " + loaded);
             if (loaded == n_frames) {
                 self.loaded_animations[animation_name] = true;
                 self.current_animation = animation_name;
@@ -226,9 +225,6 @@ export class Sprite {
         else {
             // Blit the spritesheet
             let source_x = this.width * this.current_spritesheet_index;
-            console.log("animation index:", this.current_spritesheet_index);
-            console.log("Current animation:", this.current_animation);
-            console.log("Animations:", this.animations);
             context.drawImage(this.image, source_x, 0, this.width, this.height, Math.floor(draw_pos.x), Math.floor(draw_pos.y), Math.floor(this.width * this.scale_x), Math.floor(this.height * this.scale_y))
         }
         context.restore();

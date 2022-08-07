@@ -129,7 +129,7 @@ export class Character extends Sprite {
         //this.acceleration.x -= Math.sign(this.velocity.x) * this.friction;
         //this.acceleration.y -= Math.sign(this.velocity.y) * this.friction;
 
-        console.log("Acceleration:", this.acceleration);
+        //console.log("Acceleration:", this.acceleration);
 
         // Check if deactivate the trigger
         let time = Date.now();

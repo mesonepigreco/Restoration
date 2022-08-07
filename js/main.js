@@ -7,7 +7,7 @@ const context = canvas.getContext("2d");
 const world = new World(canvas, context);
 
 // Load a trial level
-world.create_from_tilemap("tiled-level/trial_level.json");
+world.create_from_tilemap("tiled-level/new_level.json");
 
 function auto_rescale_window(fixed = false) {
     /*
