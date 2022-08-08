@@ -168,7 +168,7 @@ export class Character extends Sprite {
         this.update_mana(dt);
 
         // Update the walking squish squosh
-        if (this.walk_squish) this.walk_squish();
+        if (this.squish_walk) this.walk_squish();
 
         // Apply the horizontal moovement
         this.x += this.velocity.x * dt;

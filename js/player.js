@@ -12,10 +12,6 @@ export class Player extends Character {
         this.loaded  = 0;
         let self = this;
 
-        function load() {
-            self.loaded += 1
-        }
-
         function switch_spell() {
             self.selected_spell = (self.selected_spell + 1) % self.spells.length;
         }
@@ -25,21 +21,30 @@ export class Player extends Character {
         
         // Initialize the animations
 
-        this.animations = {
-            "idle_down" : [],
-            "idle_up" : [],
-            "idle_left" : [],
-            "idle_right" : [],
-            "run_down" : [],
-            "run_up" : [],
-            "run_left" : [],
-            "run_right" : []
-        }
-        
-        this.load_frame(load, "assets/wizard/back.png", "idle_up");
-        this.load_frame(load, "assets/wizard/front.png", "idle_down");
-        this.load_frame(load, "assets/wizard/side.png", "idle_right");
-        this.load_frame(load, "assets/wizard/side_r.png", "idle_left");
+        this.load_static_image("assets/boy/boy.png", () => {
+            self.loaded = true;
+        });
+
+        this.set_width_height(18, 28);
+        this.setup_spritesheet_animation("idle_up", [4]);
+        this.setup_spritesheet_animation("idle_down", [0]);
+        this.setup_spritesheet_animation("idle_right", [7]);
+        this.setup_spritesheet_animation("idle_left", [11]);
+
+        this.setup_spritesheet_animation("walk_up", [4, 5, 4, 6]);
+        this.setup_spritesheet_animation("walk_down", [0, 1, 0, 2]);
+        this.setup_spritesheet_animation("walk_right", [7, 8, 7, 9]);
+        this.setup_spritesheet_animation("walk_left", [11, 12, 11, 13]);
+
+        this.setup_spritesheet_animation("attack_up", [4, 4, 4]);        
+        this.setup_spritesheet_animation("attack_down", [0, 3, 3]);
+        this.setup_spritesheet_animation("attack_right", [7, 10, 10]);
+        this.setup_spritesheet_animation("attack_left", [11, 14, 14]);
+
+        //this.load_frame(load, "assets/wizard/back.png", "idle_up");
+        //this.load_frame(load, "assets/wizard/front.png", "idle_down");
+        //this.load_frame(load, "assets/wizard/side.png", "idle_right");
+        //this.load_frame(load, "assets/wizard/side_r.png", "idle_left");
         
 
         /*
@@ -54,6 +59,8 @@ export class Player extends Character {
         //this.jump = 250; 
         this.magic_value = 100;
         this.current_animation = "idle_down";
+        this.frame_rate = 2.7;
+        this.squish_walk = false;
 
         this.use_magic_trigger = -1000;
         this.use_magic_cooldown = 500;
@@ -72,8 +79,7 @@ export class Player extends Character {
     }
 
     is_loaded() {
-        if (this.loaded === 4) return true;
-        return false;
+        return this.loaded;
     }
 
 
@@ -115,6 +121,12 @@ export class Player extends Character {
             this.direction = "down";
         } else {
             this.velocity.y = 0;
+        }
+
+        if (norm(this.velocity) > 0) {
+            this.status = "walk";
+        } else {
+            this.status = "idle";
         }
 
         // Activate the current spell 

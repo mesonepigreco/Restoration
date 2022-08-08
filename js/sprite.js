@@ -43,17 +43,27 @@ export class Sprite {
 
     }
 
+    get my_width() {
+        if (this.is_spritesheet) return this.width;
+        return this.image.width;
+    }
+
+    get my_height() {
+        if (this.is_spritesheet) return this.height;
+        return this.image.height;
+    }
+
     get center() {
         return {
-            x : this.x + this.image.width / 2,
-            y : this.y + this.image.height / 2
+            x : this.x + this.my_width / 2,
+            y : this.y + this.my_height / 2
         }
     }
 
     get topright_img() {
         return {
-            x: this.x - (this.scale_x - 1) * this.image.width/2,
-            y: this.y - (this.scale_y - 1) * this.image.height/2,
+            x: this.x - (this.scale_x - 1) * this.my_width/2,
+            y: this.y - (this.scale_y - 1) * this.my_height/2,
         }
     }
 
@@ -166,7 +176,7 @@ export class Sprite {
     }
 
     get imagerect() {
-        let rect = new Rect(this.image.width, this.image.height);
+        let rect = new Rect(this.my_width, this.my_height);
         return rect;
     }
 
@@ -221,7 +231,7 @@ export class Sprite {
 
         context.scale(scalex, scaley);
         if (!this.is_spritesheet)
-            context.drawImage(this.image, Math.floor(draw_pos.x), Math.floor(draw_pos.y), Math.floor(this.image.width * this.scale_x), Math.floor(this.image.height * this.scale_y)); // A FLOOR?
+            context.drawImage(this.image, Math.floor(draw_pos.x), Math.floor(draw_pos.y), Math.floor(this.my_width * this.scale_x), Math.floor(this.my_height * this.scale_y)); // A FLOOR?
         else {
             // Blit the spritesheet
             let source_x = this.width * this.current_spritesheet_index;
