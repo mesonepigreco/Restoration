@@ -27,6 +27,8 @@ export class World {
         this.blood_particles = new Particle(0,0);
         this.blood_particles.set_all_animations(["blood"]);
         this.blood_particles.load_animation("blood", "assets/blood", 0, 4, 4, ".png");
+
+		this.enemy_group = new Group();
     }
 
     draw() {

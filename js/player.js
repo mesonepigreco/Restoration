@@ -4,6 +4,7 @@ import {norm} from "./vector_func.js";
 import {draw_color_circle} from "./color_effects.js";
 import {Character} from "./character.js"
 import { particle_burst } from "./particles.js";
+import {Sword, Punch} from "./items.js";
 
 export class Player extends Character {
     constructor(x, y, groups, collision_group) {
@@ -72,7 +73,7 @@ export class Player extends Character {
         this.kind = "player";
 
         this.spells = ['heal', 'invisiblility'];
-		this.items = ['sword', 'punch'];
+		this.items = [new Sword(), new Punch()];
         this.spell_cooldowns = [1000, 5000];
         this.mana_consumption = [30, 15];
         this.selected_spell = 0;
@@ -136,7 +137,17 @@ export class Player extends Character {
             // Use magic
             this.use_magic();
         } 
+
+		if (this.keyboard.keys["x"]) {
+			// Use the item
+			this.use_item();
+		}
     }
+	use_item() {
+		let time = Date.now();
+		this.items[this.selected_item].attack_damage(this, this.enemy_groups);
+	}
+
 
 	attack() {
 		let time = Date.now();
@@ -146,6 +157,8 @@ export class Player extends Character {
 			this.visible_group = this.groups[0];
 			this.attack_animation = this.attack_animations[this.selected_item];
 			this.attack_animation.trigger = time;
+
+			// 
 		}
 	}
 

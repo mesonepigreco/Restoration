@@ -1,7 +1,7 @@
 import { Sprite } from './sprite.js';
 import { Rect } from './rect.js';
 
-export class Item{
+class Item{
 	constructor() {
 		this.name = "item";
 
@@ -61,5 +61,27 @@ export class Item{
 			}
 		}
 	}
-
 }
+
+class Sword extends Item {
+	constructor() {
+		super();
+		this.name = "sword";
+		this.damage = 20;
+		this.front_range = 10;
+		this.area_range = 5;
+		this.cooldown = 10;
+	}
+}
+class Punch extends Item {
+	constructor() {
+		super();
+		this.name = "punch";
+		this.damage = 5;
+		this.front_range = 5;
+		this.area_range = 2;
+		this.cooldown = 5;
+	}
+}
+
+export { Sword, Punch };

@@ -31,6 +31,8 @@ export class Wolf extends Character {
         this.angle_end = 0;
         this.spotted = false;
         this.status = "idle";
+		this.current_hp = 3;
+		this.hp = 3;
 
         this.invisible = false;
 
