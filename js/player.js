@@ -72,9 +72,11 @@ export class Player extends Character {
         this.kind = "player";
 
         this.spells = ['heal', 'invisiblility'];
+		this.items = ['sword', 'punch'];
         this.spell_cooldowns = [1000, 5000];
         this.mana_consumption = [30, 15];
         this.selected_spell = 0;
+		this.selected_item = 0;
         this.visible_group = null;
     }
 
@@ -135,6 +137,17 @@ export class Player extends Character {
             this.use_magic();
         } 
     }
+
+	attack() {
+		let time = Date.now();
+		if (time - this.attack_trigger > this.items[this.selected_item].cooldown) {
+			this.attack_trigger = time;
+			this.status = "attack";
+			this.visible_group = this.groups[0];
+			this.attack_animation = this.attack_animations[this.selected_item];
+			this.attack_animation.trigger = time;
+		}
+	}
 
     use_magic() {
         let time = Date.now();

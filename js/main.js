@@ -64,7 +64,7 @@ function animate(currentTime) {
         world.update(dt);
         world.draw();
 		lastTime = currentTime;
-		console.log("FPS: " + 1000 / deltaTime);
+		// console.log("FPS: " + 1000 / deltaTime);
     }
 
     /*
