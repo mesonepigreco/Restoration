@@ -44,17 +44,27 @@ function auto_rescale_window(fixed = false) {
 }
 
 
-function animate(deltaTime) {
+let lastTime = 0;
+const maxFPS = 120;
+const minFrameTime = 1000 / maxFPS;
+const speedUp = 2;
+
+function animate(currentTime) {
     // Stabilize to avoid jumps
+	const deltaTime = currentTime - lastTime;
     let dt = deltaTime / 1000;
+	dt *= speedUp;
     if (dt > 0.05) dt = 0.05;
 
-    auto_rescale_window();
-    context.clearRect(0,0, canvas.width, canvas.height);
+    
+    if (world.is_loaded() && deltaTime > minFrameTime) {
+		auto_rescale_window();
+		context.clearRect(0,0, canvas.width, canvas.height);
 
-    if (world.is_loaded()) {
         world.update(dt);
         world.draw();
+		lastTime = currentTime;
+		console.log("FPS: " + 1000 / deltaTime);
     }
 
     /*
