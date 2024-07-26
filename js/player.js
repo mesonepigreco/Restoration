@@ -7,9 +7,10 @@ import { particle_burst } from "./particles.js";
 import {Sword, Punch} from "./items.js";
 
 export class Player extends Character {
-    constructor(x, y, groups, collision_group) {
+    constructor(x, y, world, groups, collision_group) {
         super(x, y, "player", groups, collision_group);
 
+		this.world = world;
         this.loaded  = 0;
         let self = this;
 

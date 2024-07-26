@@ -18,7 +18,7 @@ export class World {
         this.context = context;
         this.raycast = new RayCast(this.collision_group);
 
-        this.player = new Player(70, 100, [], this.collision_group);
+        this.player = new Player(70, 100, this, [], this.collision_group);
         this.ui = new UI(this.player, canvas);
         this.camera = new Camera(this.player, canvas);
         this.visible_group.add(this.player);
@@ -28,7 +28,7 @@ export class World {
         this.blood_particles.set_all_animations(["blood"]);
         this.blood_particles.load_animation("blood", "assets/blood", 0, 4, 4, ".png");
 
-		this.enemy_group = new Group();
+		this.enemy_group = [];
     }
 
     draw() {
@@ -92,6 +92,16 @@ export class World {
         }
         return true;
     }
+
+	// Lookup for the enemies in the visible group
+	generate_enemy_group() {
+		for (var i = 0; i < this.visible_group.length; ++i) {
+			let sprite = this.visible_group.sprites[i];
+			if (sprite.kind === "enemy") {
+				this.enemy_group.push(sprite);
+			}
+		}
+	}
 
     create_from_tilemap(url) {
         this.tilemap = new TileMap(url, this.background_group, this.visible_group, this.collision_group, 
