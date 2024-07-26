@@ -64,6 +64,7 @@ export class Wolf extends Character {
     }
 
 
+
     get_angle() {
         let angle_start = 0;
         let angle_end = 0;

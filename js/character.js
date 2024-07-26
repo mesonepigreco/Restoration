@@ -9,6 +9,7 @@ export class Character extends Sprite {
         // Here the stats of the character
         this.hp = 100;
         this.current_hp = this.hp;
+		this.dead = false; // If this becomes true, the character is removed from the groups
         this.speed = 5;
         this.strenght = 12;
         this.intelligence = 12;
@@ -146,7 +147,7 @@ export class Character extends Sprite {
         let nn = norm(direction);
         this.velocity.x = direction.x * momentum / nn;
         this.velocity.y = direction.y * momentum / nn;
-        console.log("PUSH BACK: momentum:", momentum, "velocity:", this.velocity);
+        console.log("PUSH BACK:  direction:", direction, "momentum:", momentum, "velocity:", this.velocity);
     }
 
     update(dt) {
@@ -180,6 +181,7 @@ export class Character extends Sprite {
         //this.y = Math.floor(this.y);
         this.update_collision(false);
     }
+
 
     draw(context, camera) {
         context.save();

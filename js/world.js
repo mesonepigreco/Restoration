@@ -28,7 +28,7 @@ export class World {
         this.blood_particles.set_all_animations(["blood"]);
         this.blood_particles.load_animation("blood", "assets/blood", 0, 4, 4, ".png");
 
-		this.enemy_group = [];
+		this.enemy_group = new Group();
     }
 
     draw() {
@@ -98,14 +98,37 @@ export class World {
 		for (var i = 0; i < this.visible_group.length; ++i) {
 			let sprite = this.visible_group.sprites[i];
 			if (sprite.kind === "enemy") {
-				this.enemy_group.push(sprite);
+				this.enemy_group.add(sprite);
 			}
 		}
 	}
 
+	// Remove dead enemies from all the groups
+	update_enemy_life() {
+		for (var i = 0; i < this.enemy_group.length; ++i) {
+			let sprite = this.enemy_group.sprites[i];
+			if (sprite.current_hp <= 0) {
+				sprite.kill();
+			}
+		}
+	}
+
+	// Update the groups removing dead characters
+	update_groups() {
+		for (var i = 0; i < this.enemy_group.length; ++i) {
+			let sprite = this.enemy_group.sprites[i];
+			if (sprite.dead) {
+				sprite.kill();
+			}
+		}
+	}
+
+
     create_from_tilemap(url) {
         this.tilemap = new TileMap(url, this.background_group, this.visible_group, this.collision_group, 
             this.add_flowers_ground.bind(this));
+
+
     }
 
     add_flowers_ground(flower_rate = 0.2, grass_rate = 0.17) {
@@ -133,5 +156,8 @@ export class World {
 
 
         }
+
+		// Add the group of enemy
+		this.generate_enemy_group();
     }
 }

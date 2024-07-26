@@ -144,9 +144,11 @@ export class Player extends Character {
 			this.use_item();
 		}
     }
+
 	use_item() {
 		let time = Date.now();
-		this.items[this.selected_item].attack_damage(this, this.enemy_groups);
+		this.items[this.selected_item].attack_animation(this);
+		this.items[this.selected_item].attack_damage(this, this.world.enemy_group);
 	}
 
 
@@ -158,14 +160,12 @@ export class Player extends Character {
 			this.visible_group = this.groups[0];
 			this.attack_animation = this.attack_animations[this.selected_item];
 			this.attack_animation.trigger = time;
-
-			// 
 		}
 	}
 
     use_magic() {
         let time = Date.now();
-
+	
         // Check if we can use the magic
         if (time - this.use_magic_trigger > this.use_magic_cooldown) {
             // Activate the spell only if there is enough mana

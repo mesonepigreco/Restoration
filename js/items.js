@@ -1,5 +1,6 @@
 import { Sprite } from './sprite.js';
 import { Rect } from './rect.js';
+import { particle_burst } from './particles.js';
 
 class Item{
 	constructor() {
@@ -22,13 +23,17 @@ class Item{
 	}
 
 	attack_animation(owner) {
+		console.log("animation");
 	}
 
 	attack_damage(owner, targets) {
 		// Look for a target to attack
 		// Loop over all possible targets
+		// console.log("Targets: ", targets);
+		// console.log("Owner: ", owner);
+		// console.log("Owner rect: ", owner.rect);
 		for (var i = 0; i < targets.length; ++i) {
-			let target = targets[i];
+			let target = targets.sprites[i];
 			let rect = null;
 
 			// Generate the damage rect
@@ -50,14 +55,15 @@ class Item{
 			// TODO: Add the spin rect
 
 			if (rect.colliderect(target.rect) || area_rect.colliderect(target.rect)) {
-					target.take_damage(this.damage);
-					target.push_back({x: -this.x + target.x, y: -this.y + target.y}, this.strenght / target.strenght * 100);
-					particle_burst(target.center, 30, this.blood_particle_model, 10, this.visible_group);
+				target.push_back({x: -owner.rect.x + target.rect.x, y: -owner.rect.y + target.rect.y}, this.damage * owner.strenght / target.strenght * 100);
 
-					// Control the damage
-					let damage = this.damage * owner.strenght - target.armor;
-					if (damage < 1) damage = 1;
-				}
+				// Control the damage
+				let damage = this.damage * owner.strenght - target.armor;
+				if (damage < 1) damage = 1;
+
+				// Apply the damage
+				target.current_hp -= damage;
+				console.log("Damage: ", damage, "remaining life: ", target.current_hp);
 			}
 		}
 	}

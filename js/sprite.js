@@ -27,7 +27,7 @@ export class Sprite {
         this.gravity = 0;
         this.animations = {};
         this.image = null;
-        this.rect = null;
+        this.rect = new Rect(0, 0, 0, 0);
         this.current_animation = null;
         this.is_spritesheet = false;
         this.current_spritesheet_index = 0;
@@ -166,6 +166,13 @@ export class Sprite {
         
     }
 
+	update_rect() {
+		this.rect.x = this.x;
+		this.rect.y = this.y;
+		this.rect.width = this.my_width;
+		this.rect.height = this.my_height;
+	}
+
     update(dt) {
         // Update the animation (if any)
         if (this.current_animation !== null)
@@ -173,6 +180,7 @@ export class Sprite {
 
         // Update the gravity
         //this.velocity.y += this.gravity * dt;
+		this.update_rect();
     }
 
     get imagerect() {
