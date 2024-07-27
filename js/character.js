@@ -44,6 +44,7 @@ export class Character extends Sprite {
         this.invulnerablility_timeout = 2000;
         this.invisibility_trigger = -1000;
         this.invisibility_timeout = 6000;
+		this.is_pushed = false;
 
 
         this.collision_group = collision_group;
@@ -142,6 +143,7 @@ export class Character extends Sprite {
         let time = Date.now();
         this.use_acceleration = true;
         this.stun_trigger = time;
+		this.is_pushed = true;
 
 
         let nn = norm(direction);
@@ -150,8 +152,17 @@ export class Character extends Sprite {
         console.log("PUSH BACK:  direction:", direction, "momentum:", momentum, "velocity:", this.velocity);
     }
 
+	update_triggers() {
+		let time = Date.now();
+		if (this.is_pushed && (time - this.stun_trigger > this.stun_timeout)) {
+			this.is_pushed = false;
+		}
+	}
+
     update(dt) {
         super.update(dt);
+
+		this.update_triggers();
 
         // Update the armor
         this.armor = (this.strenght - 12) * 0.2 

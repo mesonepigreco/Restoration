@@ -148,7 +148,7 @@ export class Wolf extends Character {
     update(dt) {
         let player = this.target;
         let time = Date.now();
-        if (player !== null && this.image !== null) {
+        if (player !== null && this.image !== null && !this.is_pushed) {
             // Check if the enemy can see the player.
             this.get_angle();
             let visible = this.raycast.project_ray(this.center, player.center, this.fov, this.angle_start, this.angle_end);
@@ -177,7 +177,7 @@ export class Wolf extends Character {
             }
         }
 
-        this.update_direction();
+        if (!this.is_pushed) this.update_direction();
 
         super.update(dt);
 
