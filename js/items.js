@@ -36,6 +36,7 @@ class Item{
 		if (now > this.trigger + this.cooldown) {
 			console.log("attack: trigger ", this.trigger, now, this.cooldown);
 			this.trigger = now;
+			this.attack_animation(owner);
 			for (var i = 0; i < targets.length; ++i) {
 				let target = targets.sprites[i];
 				let rect = null;
