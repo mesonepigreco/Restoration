@@ -42,5 +42,13 @@ class DamageSprite  extends Sprite{
 	}
 }
 
+class SwordDamage extends DamageSprite {
+	constructor(x, y, groups, damage_group) {
+		super(x, y, "sword_damage", groups, damage_group);
+		this.damage = 20;
+		this.alive_timer = 100;
+	}
+}
+
 
 export { DamageSprite };

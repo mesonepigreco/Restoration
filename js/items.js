@@ -13,6 +13,8 @@ class Item{
 		this.image_left = null;
 		this.image_right = null;
 
+		this.spawn_images = [];
+
 		this.damage = 0;
 		this.front_range = 10; // Front damage range
 		this.area_range = 5; // Surrounding damage
@@ -20,6 +22,15 @@ class Item{
 		this.spin_clockwise = true; // Spin direction
 		this.cooldown = 0.5;
 		this.trigger = 0;
+	}
+
+	load_spawn_image(image_path, waiter_function) {
+		const img = new Image();
+		img.src = image_path;
+		this.spawn_images.push(img);
+		img.addEventListener("load", function() {
+			waiter_function();
+		}
 	}
 
 	attack_animation(owner) {
@@ -37,6 +48,7 @@ class Item{
 			console.log("attack: trigger ", this.trigger, now, this.cooldown);
 			this.trigger = now;
 			this.attack_animation(owner);
+			/*
 			for (var i = 0; i < targets.length; ++i) {
 				let target = targets.sprites[i];
 				let rect = null;
@@ -80,6 +92,7 @@ class Item{
 					console.log("Target:", target);
 				}
 			}
+			*/
 		}
 	}
 }
@@ -92,6 +105,46 @@ class Sword extends Item {
 		this.front_range = 10;
 		this.area_range = 5;
 		this.cooldown = .5;
+
+		// Create the sword image
+		this.loaded = false;
+		
+		this.load_spawn_image("assets/sword/sword.png", () => {
+			this.loaded = true;
+			this.rect.width = this.spawn_images[0].width;
+			this.rect.height = this.spawn_images[0].height;
+		});
+	}
+
+	// Blit the sword image
+	attack_animation(owner) {
+		super.attack_animation(owner);
+
+		// Get the position of the sword based on the owner orientation
+		let x = owner.x;
+		let y = owner.y;
+		if (owner.direction === "up") {
+			y -= this.rect.height;
+		}
+		else if (owner.direction === "down") {
+			y += owner.rect.height;
+		}
+		else if (owner.direction === "left") {
+			x -= this.rect.width;
+		}
+		else if (owner.direction === "right") {
+			x += owner.rect.width;
+		}
+
+		let world = owner.world;
+		let groups = [world.visible_group];
+
+		let damage = owner.strength * this.damage;
+
+		// Create the sword image
+		let sword = new SwordDamage(x, y, "sword", groups, world.enemy_group);
+		sword.image = this.spawn_images[0];
+		sword.damage = damage;
 	}
 }
 class Punch extends Item {

@@ -162,8 +162,6 @@ export class Sprite {
             this.current_spritesheet_index = anim[cf];
 
         //console.log("Animation:", this.current_animation, "IMG:", this.image);
-
-        
     }
 
 	update_rect() {
