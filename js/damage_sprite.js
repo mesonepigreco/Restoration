@@ -51,4 +51,4 @@ class SwordDamage extends DamageSprite {
 }
 
 
-export { DamageSprite };
+export { DamageSprite, SwordDamage};

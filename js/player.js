@@ -147,7 +147,7 @@ export class Player extends Character {
 
 	use_item() {
 		let time = Date.now();
-		this.items[this.selected_item].attack_animation(this);
+		//this.items[this.selected_item].attack_animation(this);
 		this.items[this.selected_item].attack_damage(this, this.world.enemy_group);
 	}
 

@@ -1,6 +1,7 @@
 import { Sprite } from './sprite.js';
 import { Rect } from './rect.js';
 import { particle_burst } from './particles.js';
+import { SwordDamage } from './damage_sprite.js';
 
 class Item{
 	constructor() {
@@ -30,7 +31,7 @@ class Item{
 		this.spawn_images.push(img);
 		img.addEventListener("load", function() {
 			waiter_function();
-		}
+		});
 	}
 
 	attack_animation(owner) {
@@ -109,10 +110,11 @@ class Sword extends Item {
 		// Create the sword image
 		this.loaded = false;
 		
-		this.load_spawn_image("assets/sword/sword.png", () => {
+		this.load_spawn_image("assets/weapons/sword.png", () => {
 			this.loaded = true;
-			this.rect.width = this.spawn_images[0].width;
-			this.rect.height = this.spawn_images[0].height;
+
+			this.my_width = this.spawn_images[0].width;
+			this.my_height = this.spawn_images[0].height;
 		});
 	}
 
@@ -124,16 +126,16 @@ class Sword extends Item {
 		let x = owner.x;
 		let y = owner.y;
 		if (owner.direction === "up") {
-			y -= this.rect.height;
+			y -= this.my_height;
 		}
 		else if (owner.direction === "down") {
-			y += owner.rect.height;
+			y += owner.my_height;
 		}
 		else if (owner.direction === "left") {
-			x -= this.rect.width;
+			x -= this.my_width;
 		}
 		else if (owner.direction === "right") {
-			x += owner.rect.width;
+			x += owner.my_width;
 		}
 
 		let world = owner.world;
@@ -142,7 +144,7 @@ class Sword extends Item {
 		let damage = owner.strength * this.damage;
 
 		// Create the sword image
-		let sword = new SwordDamage(x, y, "sword", groups, world.enemy_group);
+		let sword = new SwordDamage(x, y, groups, world.enemy_group);
 		sword.image = this.spawn_images[0];
 		sword.damage = damage;
 	}
