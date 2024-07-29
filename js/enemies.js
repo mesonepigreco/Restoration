@@ -11,6 +11,7 @@ export class Wolf extends Character {
             self.loaded += 1;
             //self.image = self.animations[self.current_animation];
         }
+		this.physical_body = true;
 
         // Field of vision
         this.fov = 200;
@@ -31,8 +32,8 @@ export class Wolf extends Character {
         this.angle_end = 0;
         this.spotted = false;
         this.status = "idle";
-		this.current_hp = 3;
-		this.hp = 3;
+		this.current_hp = 50;
+		this.hp = 50;
 
         this.invisible = false;
 
@@ -116,13 +117,13 @@ export class Wolf extends Character {
                     // Trigger the attack
                     console.log("ATTACK!");
                     enemy.push_back({x : -this.x + enemy.x, y:-this.y + enemy.y}, 
-                        this.strenght / enemy.strenght * 100);
+                        this.strength / enemy.strength * 100);
                     enemy.set_invulnerability();
                     particle_burst(enemy.center, 30, this.blood_particle_model, 10, this.visible_group);
 
                     
                     // Compute the damage
-                    let damage = this.strenght - enemy.armor;
+                    let damage = this.strength - enemy.armor;
                     enemy.current_hp -= damage;
                     this.attack_trigger = time;
                 }
@@ -144,6 +145,12 @@ export class Wolf extends Character {
 
         this.current_animation = this.status + "_" + this.facing_direction;
     }
+
+
+	check_alive() {
+		if (this.current_hp <= 0)
+			this.kill()
+	}
 
     update(dt) {
         let player = this.target;
@@ -178,6 +185,8 @@ export class Wolf extends Character {
         }
 
         if (!this.is_pushed) this.update_direction();
+
+		this.check_alive();	
 
         super.update(dt);
 

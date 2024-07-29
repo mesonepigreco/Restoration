@@ -11,7 +11,7 @@ export class Character extends Sprite {
         this.current_hp = this.hp;
 		this.dead = false; // If this becomes true, the character is removed from the groups
         this.speed = 5;
-        this.strenght = 12;
+        this.strength = 12;
         this.intelligence = 12;
         this.armor = 0;
         this.mana = 100;
@@ -85,7 +85,7 @@ export class Character extends Sprite {
     }
 
     level_up() {
-        this.strenght += Math.random();
+        this.strength += Math.random();
         this.intelligence += Math.random();
         this.hp += Math.random()*5;
         this.mana = this.max_mana;
@@ -165,7 +165,7 @@ export class Character extends Sprite {
 		this.update_triggers();
 
         // Update the armor
-        this.armor = (this.strenght - 12) * 0.2 
+        this.armor = (this.strength - 12) * 0.2 
         for (var i = 0; i  < this.clothes.length; ++i) this.armor += this.clothes[i].armor;
 
         // Update velocity

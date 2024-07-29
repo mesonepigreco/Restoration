@@ -6,6 +6,7 @@ export class Sprite {
         this.y = y;
         this.width = null;
         this.height = null;
+		this.physical_body = false;
         this.kind = kind;
         this.current_frame = 0;
         this.scale_factor = 1;
@@ -19,7 +20,8 @@ export class Sprite {
         this.scale_y = 1;
 
         // Add the sprite to the groups
-        for (var i = 0; i < groups.length; ++i) {
+		let group_length = groups.length;
+        for (var i = 0; i < group_length; ++i) {
             let group = groups[i];
             group.add(this);
         }
@@ -172,6 +174,8 @@ export class Sprite {
 	}
 
     update(dt) {
+		this.update_collider();
+
         // Update the animation (if any)
         if (this.current_animation !== null)
             this.update_animation(dt);
@@ -245,6 +249,17 @@ export class Sprite {
         }
         context.restore();
     }
+
+	update_collider() {
+		if (this.loaded && this.image !== null) { 
+			if (this.colliders.length === 0 && this.physical_body) {
+				console.log("Try adding a collision rect:", this.imagerect);
+				if (this.imagerect !== undefined)
+					this.colliders.push(this.imagerect);
+			}
+		}
+	}
+
 
     kill() {
         // Remove from the groups

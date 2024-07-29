@@ -139,14 +139,19 @@ class Sword extends Item {
 		}
 
 		let world = owner.world;
-		let groups = [world.visible_group];
 
 		let damage = owner.strength * this.damage;
 
 		// Create the sword image
-		let sword = new SwordDamage(x, y, groups, world.enemy_group);
+		console.log("Create sword");
+		let sword = new SwordDamage(x, y, [], world.enemy_group);
+		world.visible_group.add(sword);	
+		console.log("Add image");
 		sword.image = this.spawn_images[0];
 		sword.damage = damage;
+		console.log("Sword added");
+		console.log("Damage: ", damage);
+		console.log("Owner strength:", owner.strength);
 	}
 }
 class Punch extends Item {

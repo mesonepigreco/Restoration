@@ -9,8 +9,10 @@ class DamageSprite  extends Sprite{
 		// Store the group of sprites that take damage
 		this.damage = 10;
 		this.damage_group = damage_group;
-		this.trigger = 0;
+		this.trigger = Date.now();
 		this.alive_timer = 1000;
+		this.physical_body = true;
+		this.loaded = true;
 	}
 
 	check_alive() {
@@ -24,9 +26,11 @@ class DamageSprite  extends Sprite{
 		for (var i = 0; i < this.damage_group.length; ++i) {
 			let target = this.damage_group.sprites[i];
 			if (this.collidewith(target)) {
-				target.push_back({x: this.x - target.x, y: this.y - target.y}, this.damage / target.strength * 4);
-				target.current_hp -= this.damage;
-				this.kill();
+				target.push_back({x: -this.center.x + target.center.x, y: -this.center.y + target.center.y}, this.damage / target.strength * 4);
+				target.current_hp -= this.damage / target.strength;
+				target.attack_trigger = Date.now(); // Stop the attack of the enemy
+				console.log("Damage: ", this.damage/ target.strength, "remaining life: ", target.current_hp);
+				// this.kill();
 			}
 		}
 	}
@@ -44,9 +48,17 @@ class DamageSprite  extends Sprite{
 
 class SwordDamage extends DamageSprite {
 	constructor(x, y, groups, damage_group) {
+		console.log("Creating sword inside SwordDamage");
+		console.log("The groups are:", groups);
 		super(x, y, "sword_damage", groups, damage_group);
-		this.damage = 20;
-		this.alive_timer = 100;
+		this.damage = 10;
+		this.alive_timer = 300;
+		console.log("Sword created");
+	}
+
+	update(dt) {
+		this.update_collider();
+		super.update(dt);
 	}
 }
 
