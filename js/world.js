@@ -46,7 +46,7 @@ export class World {
         //draw_color_circle(this.context, this.canvas, position, 60);
 
         // Draw the UI
-        this.ui.draw(this.context);
+        //this.ui.draw(this.context);
     }
 
     update_player_in_enemies() {

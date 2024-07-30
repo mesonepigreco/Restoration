@@ -1,4 +1,73 @@
+.canvas-container {
+	position: relative;
+	width: fit-content;
+}
+
 canvas{
-    position: absolute;
+	display: block;
     border-style: inset;
 }
+
+
+/* Put the lower bar inside the canvas */
+.lower-bar {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 50px;
+	background-color: #333;
+	color: white;
+	text-align: center;
+	line-height: 50px;
+}
+
+
+.bars-container {
+    display: flex;
+	flex-flow: column;
+    justify-content: center;
+    width: 80%;
+}
+
+.bar-container {
+    width: 100%;
+    height: 20px;
+    background-color: #555;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+
+.bar-background {
+    width: 100%;
+    height: 100%;
+    background-color: #111;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+}
+
+.bar.life {
+    height: 100%;
+    background-color: green;
+    width: 100%;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 0.5s ease;
+}
+.bar.mana {
+	height: 100%;
+	background-color: blue;
+	width: 100%;
+	border-radius: 10px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: width 0.5s ease;
+}
+
+

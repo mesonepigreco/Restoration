@@ -11,7 +11,34 @@
         </style>
     </head>
     <body>
-        <canvas id="main-window" width="640" height="400"></canvas>
+		<div class="canvas-container">
+			<canvas id="main-window" width="640" height="400">
+			</canvas>
+			<!-- Prepare the graphical interface -->
+			<div class="lower-bar">
+				<div class="bars-container">
+					<div class="bar-container">
+						<div class="bar-background">
+							<div class="bar life" id="lifebar"></div>
+						</div>
+					</div>
+					<div class="bar-container">
+						<div class="bar-background">
+							<div class="bar mana" id="manabar"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Here the selected item -->
+				<div class="items-magic">
+					<div class="item-box box">
+					</div>
+					<div class="magic-box box">
+				</div>
+			</div>
+		</div>
+
+
         <script type="module" src="js/main.js"></script>
 
         <!-- <canvas id="ghost" width="640" height="400"></canvas> -->

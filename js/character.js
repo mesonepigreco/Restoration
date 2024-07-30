@@ -121,11 +121,23 @@ export class Character extends Sprite {
         }
     }
 
+	set_mana(value) {
+		this.mana = value;
+		// Overridden by the player that also updates the bar status.
+	}
+
+	set_hp(value) {
+		this.current_hp = value;
+		// Overridden by the player that also updates the bar status.
+	}
+
     update_mana(dt) {
         // Autorecovery
 		if (this.mana < this.max_mana) {
-			this.mana += this.mana_reovery * dt;
-			if (this.mana > this.max_mana) this.mana = this.max_mana;
+			let mana_value = this.mana +  this.mana_reovery * dt;
+			if (this.mana > this.max_mana) mana_value = this.max_mana;
+
+			this.set_mana(mana_value);
 		}
     }
 

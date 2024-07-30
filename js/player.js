@@ -86,6 +86,19 @@ export class Player extends Character {
         return this.loaded;
     }
 
+	set_hp(value) {
+		// Get the DOM element for the life
+		console.log("lifeset");
+		this.current_hp = value;
+		if (this.current_hp <= 0) {
+			this.current_hp = 0;
+		}
+		let life = document.getElementById("lifebar");
+		life.style.width = (this.current_hp / this.hp) * 100 + "%";
+		console.log("Life: ", this.current_hp);
+	}
+
+
 
     setup_collider() {
         if (this.image !== null) {
@@ -163,6 +176,12 @@ export class Player extends Character {
 		}
 	}
 
+	set_mana(value) {
+		this.mana = value;
+		let mana = document.getElementById("manabar");
+		mana.style.width = (this.mana / this.max_mana) * 100 + "%";
+	}
+
     use_magic() {
         let time = Date.now();
 	
@@ -170,7 +189,7 @@ export class Player extends Character {
         if (time - this.use_magic_trigger > this.use_magic_cooldown) {
             // Activate the spell only if there is enough mana
             if (this.mana > this.mana_consumption[this.selected_spell]) {
-                this.mana -= this.mana_consumption[this.selected_spell]
+				this.set_mana(this.mana - this.mana_consumption[this.selected_spell]);
 
                 this.use_magic_trigger = time;
                 this.use_magic_cooldown = this.spell_cooldowns[this.selected_spell];
@@ -180,8 +199,7 @@ export class Player extends Character {
                     // TODO: Animate heal
                     particle_burst(this.center, 50, this.particle_model, 30, this.visible_group);
 
-                    this.current_hp += 10;
-                    if (this.current_hp > this.hp) this.current_hp = this.hp;
+                    this.set_hp(this.current_hp + 10);
                 } else if (this.spells[this.selected_spell] === 'invisiblility') {
                     this.set_invisibility();
                 }
