@@ -16,6 +16,7 @@ export class Wolf extends Character {
         // Field of vision
         this.fov = 200;
         this.angle_of_vision = 120 // Degrees
+		this.invulnerability_timeout = 200;
 
         this.attack_rate = 1; // Per second
         this.attack_trigger = -1000;

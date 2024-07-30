@@ -13,6 +13,62 @@ class DamageSprite  extends Sprite{
 		this.alive_timer = 1000;
 		this.physical_body = true;
 		this.loaded = true;
+		this.parent_sprite = null;
+		this.delta_x = 0;	
+		this.delta_y = 0;
+	}
+
+	set_image(owner, spawn_images) {
+		// Set the image of the sprite
+		if (owner.direction === "up") {
+			this.image = spawn_images[0];
+		}
+		else if (owner.direction === "down") {
+			this.image = spawn_images[1];
+		}
+		else if (owner.direction === "left") {
+			this.image = spawn_images[2];
+		}
+		else if (owner.direction === "right") {
+			this.image = spawn_images[3];
+		}
+	}
+
+	set_attack_position(owner) {
+		let x = 0;
+		let y = 0;
+		if (owner.direction === "up") {
+			x = owner.center.x - this.my_width / 2; 
+			y = owner.y - this.my_height;
+		}
+		else if (owner.direction === "down") {
+			x = owner.bottomcenter.x - this.my_width / 2;
+			y = owner.bottomcenter.y;
+		}
+		else if (owner.direction === "left") {
+			x = owner.x - this.my_width;
+			y = owner.center.y;
+		}
+		else if (owner.direction === "right") {
+			x = owner.rightcenter.x;
+			y = owner.rightcenter.y;
+		}
+
+		this.x = x;
+		this.y = y;
+
+		if (this.parent_sprite) {
+			this.delta_x = this.parent_sprite.x - this.x;
+			this.delta_y = this.parent_sprite.y - this.y;
+		}
+
+		return {x: x, y: y};
+	}
+
+	bind_sprite(sprite) {
+		this.parent_sprite = sprite;
+		this.delta_x = this.parent_sprite.x - this.x;
+		this.delta_y = this.parent_sprite.y - this.y;
 	}
 
 	check_alive() {
@@ -25,10 +81,11 @@ class DamageSprite  extends Sprite{
 	update_collision() {
 		for (var i = 0; i < this.damage_group.length; ++i) {
 			let target = this.damage_group.sprites[i];
-			if (this.collidewith(target)) {
+			if (this.collidewith(target) && !target.invulnerable) {
 				target.push_back({x: -this.center.x + target.center.x, y: -this.center.y + target.center.y}, this.damage / target.strength * 4);
 				target.current_hp -= this.damage / target.strength;
 				target.attack_trigger = Date.now(); // Stop the attack of the enemy
+				target.set_invulnerability();
 				console.log("Damage: ", this.damage/ target.strength, "remaining life: ", target.current_hp);
 				// this.kill();
 			}
@@ -37,6 +94,12 @@ class DamageSprite  extends Sprite{
 
 	update(dt) {
 		super.update(dt);
+
+		// Update the position with the parent sprite
+		if (this.parent_sprite) {
+			this.x = this.parent_sprite.x - this.delta_x;
+			this.y = this.parent_sprite.y - this.delta_y;
+		}
 
 		// Check if it does damage to someone
 		this.update_collision();

@@ -38,6 +38,9 @@ class Item{
 		console.log("animation");
 	}
 
+	
+
+
 	attack_damage(owner, targets) {
 		// Look for a target to attack
 		// Loop over all possible targets
@@ -109,10 +112,34 @@ class Sword extends Item {
 
 		// Create the sword image
 		this.loaded = false;
-		
-		this.load_spawn_image("assets/weapons/sword.png", () => {
-			this.loaded = true;
+		let nload = 0;
 
+		
+		this.load_spawn_image("assets/weapons/sword_front.png", () => {
+			nload++;
+			if (nload >= 4) this.loaded = true;
+
+			this.my_width = this.spawn_images[0].width;
+			this.my_height = this.spawn_images[0].height;
+		});
+		this.load_spawn_image("assets/weapons/sword_back.png", () => {
+			nload++;
+			if (nload >= 4) this.loaded = true;
+			
+			this.my_width = this.spawn_images[0].width;
+			this.my_height = this.spawn_images[0].height;
+		});
+		this.load_spawn_image("assets/weapons/sword_left.png", () => {
+			nload++;
+			if (nload >= 4) this.loaded = true;
+			
+			this.my_width = this.spawn_images[0].width;
+			this.my_height = this.spawn_images[0].height;
+		});
+		this.load_spawn_image("assets/weapons/sword_right.png", () => {
+			nload++;
+			if (nload >= 4) this.loaded = true;
+			
 			this.my_width = this.spawn_images[0].width;
 			this.my_height = this.spawn_images[0].height;
 		});
@@ -122,36 +149,24 @@ class Sword extends Item {
 	attack_animation(owner) {
 		super.attack_animation(owner);
 
-		// Get the position of the sword based on the owner orientation
-		let x = owner.x;
-		let y = owner.y;
-		if (owner.direction === "up") {
-			y -= this.my_height;
-		}
-		else if (owner.direction === "down") {
-			y += owner.my_height;
-		}
-		else if (owner.direction === "left") {
-			x -= this.my_width;
-		}
-		else if (owner.direction === "right") {
-			x += owner.my_width;
-		}
+		// Get the attack position
+		// let attack_pos = this.get_attack_position(owner);
+		// let x = attack_pos.x;
+		// let y = attack_pos.y;
 
+		// Get the position of the sword based on the owner orientation
 		let world = owner.world;
 
 		let damage = owner.strength * this.damage;
 
 		// Create the sword image
-		console.log("Create sword");
-		let sword = new SwordDamage(x, y, [], world.enemy_group);
+		let sword = new SwordDamage(0, 0, [], world.enemy_group);
 		world.visible_group.add(sword);	
-		console.log("Add image");
-		sword.image = this.spawn_images[0];
+		sword.set_image(owner, this.spawn_images);
+		sword.set_attack_position(owner);
+		sword.bind_sprite(owner);
+		//sword.image = this.spawn_images[attack_pos.orientation];
 		sword.damage = damage;
-		console.log("Sword added");
-		console.log("Damage: ", damage);
-		console.log("Owner strength:", owner.strength);
 	}
 }
 class Punch extends Item {

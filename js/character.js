@@ -106,6 +106,8 @@ export class Character extends Sprite {
 
     update_all_status() {
         if (this.invulnerable) {
+			console.log("invulnerable:", Date.now() - this.invulnerability_trigger,
+				this.invulnerability_timeout);
             if (Date.now() - this.invunearbility_trigger > this.invulnerablility_timeout)
                 this.invulnerable = false;
         }

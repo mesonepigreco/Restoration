@@ -62,6 +62,34 @@ export class Sprite {
         }
     }
 
+	get bottomleft() {
+		return {
+			x: this.x,
+			y: this.y + this.my_height
+		}
+	}
+
+	get bottomright() {
+		return {
+			x: this.x + this.my_width,
+			y: this.y + this.my_height
+		}
+	}
+
+	get bottomcenter() {
+		return {
+			x: this.x + this.my_width / 2,
+			y: this.y + this.my_height
+		}
+	}
+
+	get rightcenter() {
+		return {
+			x: this.x + this.my_width,
+			y: this.y + this.my_height / 2
+		}
+	}
+
     get topright_img() {
         return {
             x: this.x - (this.scale_x - 1) * this.my_width/2,
