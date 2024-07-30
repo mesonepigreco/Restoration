@@ -40,8 +40,8 @@ export class Character extends Sprite {
         this.stun_trigger = -1000;
         this.stun_timeout = 200;
 
-        this.invunearbility_trigger = -1000;
-        this.invulnerablility_timeout = 2000;
+        this.invulnerbility_trigger = -1000;
+        this.invulnerability_timeout = 2000;
         this.invisibility_trigger = -1000;
         this.invisibility_timeout = 6000;
 		this.is_pushed = false;
@@ -95,7 +95,8 @@ export class Character extends Sprite {
     set_invulnerability() {
         let time = Date.now();
         this.invulnerable = true;
-        this.invunearbility_trigger = time;
+        this.invulnerability_trigger = time;
+		console.log("Invulnerability set: ", this.invulnerability_trigger, "timeout:", this.invulnerablility_timeout);
     }
 
     set_invisibility() {
@@ -105,23 +106,27 @@ export class Character extends Sprite {
     }
 
     update_all_status() {
+		let time = Date.now();
         if (this.invulnerable) {
-			console.log("invulnerable:", Date.now() - this.invulnerability_trigger,
+			let delta = time - this.invulnerability_trigger;
+			console.log("invulnerable:", time, "trigger:", this.invulnerability_trigger, "delta:", delta, "timeout:",
 				this.invulnerability_timeout);
-            if (Date.now() - this.invunearbility_trigger > this.invulnerablility_timeout)
+            if (time - this.invulnerability_trigger > this.invulnerability_timeout)
                 this.invulnerable = false;
         }
 
         if (this.invisible) {
-            if (Date.now() - this.invisibility_trigger > this.invisibility_timeout)
+            if (time - this.invisibility_trigger > this.invisibility_timeout)
                 this.invisible = false;
         }
     }
 
     update_mana(dt) {
         // Autorecovery
-        this.mana += this.mana_reovery * dt;
-        if (this.mana > this.max_mana) this.mana = this.max_mana;
+		if (this.mana < this.max_mana) {
+			this.mana += this.mana_reovery * dt;
+			if (this.mana > this.max_mana) this.mana = this.max_mana;
+		}
     }
 
     update_acceleration() {
