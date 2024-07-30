@@ -109,8 +109,8 @@ export class Character extends Sprite {
 		let time = Date.now();
         if (this.invulnerable) {
 			let delta = time - this.invulnerability_trigger;
-			console.log("invulnerable:", time, "trigger:", this.invulnerability_trigger, "delta:", delta, "timeout:",
-				this.invulnerability_timeout);
+			/*console.log("invulnerable:", time, "trigger:", this.invulnerability_trigger, "delta:", delta, "timeout:",
+				this.invulnerability_timeout); */
             if (time - this.invulnerability_trigger > this.invulnerability_timeout)
                 this.invulnerable = false;
         }

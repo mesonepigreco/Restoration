@@ -149,8 +149,14 @@ export class Wolf extends Character {
 
 
 	check_alive() {
-		if (this.current_hp <= 0)
+		if (this.current_hp <= 0) 
 			this.kill()
+	}
+
+	kill() {
+		// Spawn the blood particles
+		particle_burst(this.center, 30, this.blood_particle_model, 10, this.visible_group);
+		super.kill();
 	}
 
     update(dt) {
@@ -164,7 +170,6 @@ export class Wolf extends Character {
             visible = visible && (!(player.invisible || player.invulnerable));
             
             if (visible && !this.spotted) {
-                console.log("Spotted!");
                 // Check if we need to play an animation or a spotted sound
                 if (time - this.spot_trigger > this.spot_countdown) {
                     // Spotted for the first time
