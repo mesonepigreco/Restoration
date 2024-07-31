@@ -74,7 +74,7 @@ export class Player extends Character {
         this.kind = "player";
 
         this.spells = ['heal', 'invisiblility'];
-		this.items = [new Sword(), new Punch()];
+		this.items = [new Sword(this.world.items_sheet)];
         this.spell_cooldowns = [1000, 5000];
         this.mana_consumption = [30, 15];
         this.selected_spell = 0;

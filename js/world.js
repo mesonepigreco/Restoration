@@ -29,6 +29,7 @@ export class World {
         this.blood_particles.load_animation("blood", "assets/blood", 0, 4, 4, ".png");
 
 		this.enemy_group = new Group();
+
     }
 
     draw() {
