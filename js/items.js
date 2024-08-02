@@ -28,14 +28,6 @@ class Item{
 		this.trigger = 0;
 	}
 
-	select() {
-		// Set the image on the container
-		// This could be very slow
-		const image_canvas = document.getElementById("item_selected");
-		const ctx_new = image_canvas.getContext("2d");
-		ctx_new.clearRect(0, 0, image_canvas.width, image_canvas.height);
-		ctx_new.drawImage(this.portrait, 0, 0, image_canvas.width, image_canvas.height);
-	}
 
 	load_spawn_image(image_path, waiter_function) {
 		const img = new Image();

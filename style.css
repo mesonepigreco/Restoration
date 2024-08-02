@@ -4,10 +4,17 @@
 }
 
 canvas{
+		image-rendering: pixelated;
+}
+
+#main-window {
 	display: block;
     border-style: inset;
 }
 
+#item_selected {
+	min-width: 32px;
+}
 
 /* Put the lower bar inside the canvas */
 .lower-bar {
@@ -19,6 +26,9 @@ canvas{
 	color: white;
 	text-align: center;
 	line-height: 50px;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
 }
 
 
@@ -70,4 +80,9 @@ canvas{
 	transition: width 0.5s ease;
 }
 
+
+.item-box {
+	display: flex;
+	align-items: center;
+}
 

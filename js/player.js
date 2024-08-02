@@ -80,6 +80,7 @@ export class Player extends Character {
         this.selected_spell = 0;
 		this.selected_item = 0;
         this.visible_group = null;
+		this.items[this.selected_item].select();
     }
 
     is_loaded() {
@@ -222,4 +223,16 @@ export class Player extends Character {
         this.update_status();
     }
 
+
+	// Draw the image of the selected item
+	draw(ctx, cam) {
+		super.draw(ctx, cam);
+		
+		// Get the DOM element of the item canvas
+		// This could be very slow
+		const image_canvas = document.getElementById("item_selected");
+		const ctx_new = image_canvas.getContext("2d");
+		ctx_new.clearRect(0, 0, image_canvas.width, image_canvas.height);
+		ctx_new.drawImage(this.items[this.selected_item].portrait, 0, 0, image_canvas.width, image_canvas.height);
+	}
 }

@@ -41,6 +41,7 @@ function auto_rescale_window(fixed = false) {
     // Set the position to always be at the center of the screen
     canvas.style.left = ""  + Math.floor(window.innerWidth/2 -  width / 2) + "px";
     canvas.style.top = ""  + Math.floor(window.innerHeight/2 - height / 2) + "px";
+
 }
 
 
